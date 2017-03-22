@@ -34,14 +34,16 @@ brew services start postgresql
 # cut-and-paste this block with abandon
 
 mkdir ~/hipparchia_venv
-mkdir ~/hipparchia_venv/HipparchiaData ~/hipparchia_venv/HipparchiaServer ~/hipparchia_venv/HipparchiaSQLoader ~/hipparchia_venv/HipparchiaBuilder ~/hipparchia_venv/HipparchiaBSD
+mkdir ~/hipparchia_venv/HipparchiaData ~/hipparchia_venv/HipparchiaServer ~/hipparchia_venv/HipparchiaSQLoader ~/hipparchia_venv/HipparchiaBuilder ~/hipparchia_venv/HipparchiaBSD ~/hipparchia_venv/HipparchiaMacOS
 cd ~/hipparchia_venv/HipparchiaServer/ && git init && git pull https://github.com/e-gun/HipparchiaServer.git
 cd ~/hipparchia_venv/HipparchiaBuilder/ && git init && git pull https://github.com/e-gun/HipparchiaBuilder.git
 cd ~/hipparchia_venv/HipparchiaSQLoader/ && git init && git pull https://github.com/e-gun/HipparchiaSQLoader.git
 cd ~/hipparchia_venv/HipparchiaBSD/ && git init && git pull https://github.com/e-gun/HipparchiaBSD.git
-cp ~/hipparchia_venv/HipparchiaBSD/macOS_selfupdate.sh ~/hipparchia_venv/selfupdate.sh
+cd ~/hipparchia_venv/HipparchiaMacOS/ && git init && git pull https://github.com/e-gun/HipparchiaMacOS.git
+cp ~/hipparchia_venv/HipparchiaMacOS/macOS_selfupdate.sh ~/hipparchia_venv/selfupdate.sh
 chmod 700 ~/hipparchia_venv/selfupdate.sh
-cp -rp ~/hipparchia_venv/HipparchiaBSD/macos_launch_hipparchia_application.app ~/hipparchia_venv/launch_hipparchia.app
+cp -rp ~/hipparchia_venv/HipparchiaMacOS/macos_launch_hipparchia_application.app ~/hipparchia_venv/launch_hipparchia.app
+cp -rp ~/hipparchia_venv/HipparchiaMacOS/macos_dbload_hipparchia.app ~/hipparchia_venv/HipparchiaSQLoader/load_hipparchia_data.app
 
 # build the db framework
 
@@ -55,6 +57,7 @@ psql hipparchiaDB
 # this next bit can't be done with cut-and-paste: YOU HAVE TO READ AND FOLLOW THE INSTRUCTIONS
 #
 #	[set two different passwords for your two different DB roles: please pick strong/hard gibberish passwords like "IQY%gOd$)&KV" and "~=#ThR05D3" ]
+#	[easy access randomness can be found via '/usr/bin/openssl rand -base64 12']
 #	\password hippa_wr
 #	\password hippa_rd
 #	\q
