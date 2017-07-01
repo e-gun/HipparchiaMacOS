@@ -2,8 +2,7 @@
 
 building HipparchiaServer as a standalone app
 
-you could distribute this to anyone/everyone: no need to install python, etc.
-
+you could distribute this to anyone/everyone: no need to install python, flask, etc.
 
 install py2app:
 
@@ -25,9 +24,11 @@ test the app in the terminal:
 	
 double-click on it to run it
 
+
+
 IMPORTANT NOTE / SEVERE LIMITATIONS: 
 
-Q: 	__init__.py was rewritten. why?
+[1] Q: 	__init__.py was rewritten. why?
 	
 	
 A:	because py2app cannot look inside the 'server' folder properly
@@ -45,9 +46,14 @@ A:	because py2app cannot look inside the 'server' folder properly
 	an obvious solution is to set template_folder='/Applications/Hipparchia.app/Contents/Resources/templates', etc.
 	then Hipparchia.app works if and only if it runs from the /Applications folder. Brittle, but...
 	
-
-Other problems that would remain:
+[2] Other problems that remain:
 
 the person who needs HipparchiaServer as a standalone app probably can't install PostgreSQL and/or the data.
 
-so this is only one (half-finished) piece of the puzzle...
+[3] there is no feedback in the MacOS UI: the application launches and then is hidden. Again, the person
+who needs the app does not know how to force quit, etc.
+
+rumps is the way to get all of this into a menubar app?
+
+
+IN SHORT: all of this is only one (half-finished) piece of the puzzle...
