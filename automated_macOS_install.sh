@@ -114,9 +114,11 @@ fi
 
 # set up some random passwords
 
-WRPASS=`/usr/bin/openssl rand -base64 12`
-RDPASS=`/usr/bin/openssl rand -base64 12`
-SKRKEY=`/usr/bin/openssl rand -base64 24`
+SSL="/usr/bin/openssl"
+
+WRPASS=`${SSL} rand -base64 12`
+RDPASS=`${SSL} rand -base64 12`
+SKRKEY=`${SSL} rand -base64 24`
 
 # you might have regex control chars in there if you are not lucky: 'VvIUkQ9CerGTo/sx5vneHeo+PCKpx7V5'
 WRPASS=`echo ${WRPASS//[^[:word:]]/}`

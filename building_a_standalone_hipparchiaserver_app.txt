@@ -1,0 +1,53 @@
+[HIGHLY EXPERIMENTAL / IN PROGRESS]
+
+building HipparchiaServer as a standalone app
+
+you could distribute this to anyone/everyone: no need to install python, etc.
+
+
+install py2app:
+
+	$ ~/hipparchia_venv/bin/pip3 install py2app
+
+in a COPY of the master distribution:
+
+install 'Hipparchia.py' (which is just a clone of run.py but renamed to give the app the right name)
+
+replace './server/__init__.py' with 'hipparchia2app_server.__init__.py'
+
+build the app:
+
+	$ ~/hipparchia_venv/bin/python hipparchia2app_setup.py py2app
+
+test the app in the terminal:
+
+	$ ./dist/Hipparchia.app/Contents/MacOS/Hipparchia
+	
+double-click on it to run it
+
+IMPORTANT NOTE / SEVERE LIMITATIONS: 
+
+Q: 	__init__.py was rewritten. why?
+	
+	
+A:	because py2app cannot look inside the 'server' folder properly
+
+	you have to set the template folder and the static folder to somewhere that both
+	hipparchia2app_setup.py and __init__.py can use
+	
+	at the moment we have:
+	
+		template_folder='/Users/erik/hipparchia_venv/HipparchiaServer2app/dist/Hipparchia.app/Contents/Resources/templates',
+		static_folder='/Users/erik/hipparchia_venv/HipparchiaServer2app/dist/Hipparchia.app/Contents/Resources/static'
+
+	but this means that 'Hipparchia.app' CANNOT MOVE from the place where you build it
+	
+	an obvious solution is to set template_folder='/Applications/Hipparchia.app/Contents/Resources/templates', etc.
+	then Hipparchia.app works if and only if it runs from the /Applications folder. Brittle, but...
+	
+
+Other problems that would remain:
+
+the person who needs HipparchiaServer as a standalone app probably can't install PostgreSQL and/or the data.
+
+so this is only one (half-finished) piece of the puzzle...
