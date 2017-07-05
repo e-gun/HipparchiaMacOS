@@ -16,7 +16,7 @@ OPTIONS = {
 	 'plist': {
 		'LSBackgroundOnly': False,
 		'LSUIElement': False,	 		
-		'CFBundleName': 'HipparchiaServer',
+		'CFBundleName': 'Hipparchia',
 		'CFBundleShortVersionString':'0.9b.3', 
 		'CFBundleVersion': '0.0.1', 
 		'CFBundleIdentifier':'unidentified.edu.Hipparchia', 

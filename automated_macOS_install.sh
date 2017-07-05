@@ -165,15 +165,21 @@ $GET https://code.jquery.com/jquery-3.1.0.min.js
 mv $STATIC/jquery-3.1.0.min.js $STATIC/jquery.min.js
 $GET https://raw.githubusercontent.com/js-cookie/js-cookie/master/src/js.cookie.js
 $GET https://github.com/dejavu-fonts/dejavu-fonts/releases/download/version_2_37/dejavu-fonts-ttf-2.37.tar.bz2
+$GET https://noto-website.storage.googleapis.com/pkgs/NotoSans-unhinted.zip
+$GET https://github.com/google/fonts/raw/master/apache/robotomono/RobotoMono-Medium.ttf
+$GET https://github.com/google/fonts/raw/master/apache/robotocondensed/RobotoCondensed-Regular.ttf
+$GET https://github.com/google/roboto/raw/master/src/hinted/Roboto-Thin.ttf
+$GET https://github.com/google/roboto/raw/master/src/hinted/Roboto-Light.ttf 
 $GET http://jqueryui.com/resources/download/jquery-ui-1.12.1.zip
 
 echo "${WHITE}unpacking 3rd party support files"
 tar jxf $STATIC/dejavu-fonts-ttf-2.37.tar.bz2
+unzip $STATIC/NotoSans-unhinted.zip
 cp $STATIC/dejavu-fonts-ttf-2.37/ttf/*.ttf $STATIC/ttf/
 unzip $STATIC/jquery-ui-1.12.1.zip
 cp $STATIC/jquery-ui-1.12.1/jquery-ui* $STATIC/
 cp $STATIC/jquery-ui-1.12.1/images/*.png $STATIC/images/
-rm -rf $STATIC/dejavu-fonts-ttf-2.37.tar.bz2 $STATIC/jquery-ui-1.12.1.zip $STATIC/jquery-ui-1.12.1/ $STATIC/dejavu-fonts-ttf-2.37/
+rm -rf $STATIC/dejavu-fonts-ttf-2.37.tar.bz2 $STATIC/jquery-ui-1.12.1.zip $STATIC/jquery-ui-1.12.1/ $STATIC/dejavu-fonts-ttf-2.37/ $STATIC/NotoSans-unhinted.zip
 
 if [ ! -d "$DATAPATH/lexica" ]; then
 	printf "${WHITE}fetching the lexica${NC}\n"

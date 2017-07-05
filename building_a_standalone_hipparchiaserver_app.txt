@@ -46,6 +46,8 @@ A:	because py2app cannot look inside the 'server' folder properly
 	an obvious solution is to set template_folder='/Applications/Hipparchia.app/Contents/Resources/templates', etc.
 	then Hipparchia.app works if and only if it runs from the /Applications folder. Brittle, but...
 	
+	setting the paths to '../../templates' will not work either...
+	
 [2] Other problems that remain:
 
 the person who needs HipparchiaServer as a standalone app probably can't install PostgreSQL and/or the data.
@@ -54,6 +56,8 @@ the person who needs HipparchiaServer as a standalone app probably can't install
 who needs the app does not know how to force quit, etc.
 
 rumps is the way to get all of this into a menubar app?
+
+[4] you will have just hard coded the contents of config.py into the app: that is a major mobility problem...
 
 
 IN SHORT: all of this is only one (half-finished) piece of the puzzle...
