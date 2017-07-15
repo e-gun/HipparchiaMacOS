@@ -102,6 +102,7 @@ tar jxf ~/hipparchia_venv/HipparchiaServer/server/static/dejavu-fonts-ttf-2.37.t
 cp ~/hipparchia_venv/HipparchiaServer/server/static/dejavu-fonts-ttf-2.37/ttf/*.ttf ~/hipparchia_venv/HipparchiaServer/server/static/ttf/
 unzip ~/hipparchia_venv/HipparchiaServer/server/static/jquery-ui-1.12.1.zip
 unzip ~/hipparchia_venv/HipparchiaServer/server/static/NotoSans-unhinted.zip
+mv ~/hipparchia_venv/HipparchiaServer/server/static/*.ttf ~/hipparchia_venv/HipparchiaServer/server/static/ttf/
 cp ~/hipparchia_venv/HipparchiaServer/server/static/jquery-ui-1.12.1/jquery-ui* ~/hipparchia_venv/HipparchiaServer/server/static/
 cp ~/hipparchia_venv/HipparchiaServer/server/static/jquery-ui-1.12.1/images/*.png ~/hipparchia_venv/HipparchiaServer/server/static/images/
 rm -rf ~/hipparchia_venv/HipparchiaServer/server/static/NotoSans-unhinted.zip ~/hipparchia_venv/HipparchiaServer/server/static/dejavu-fonts-ttf-2.37.tar.bz2 ~/hipparchia_venv/HipparchiaServer/server/static/jquery-ui-1.12.1.zip ~/hipparchia_venv/HipparchiaServer/server/static/jquery-ui-1.12.1/ ~/hipparchia_venv/HipparchiaServer/server/static/dejavu-fonts-ttf-2.37/

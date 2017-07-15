@@ -171,6 +171,7 @@ $GET https://github.com/google/fonts/raw/master/apache/robotocondensed/RobotoCon
 $GET https://github.com/google/roboto/raw/master/src/hinted/Roboto-Thin.ttf
 $GET https://github.com/google/roboto/raw/master/src/hinted/Roboto-Light.ttf 
 $GET http://jqueryui.com/resources/download/jquery-ui-1.12.1.zip
+mv $STATIC/*.ttf $STATIC/ttf/
 
 echo "${WHITE}unpacking 3rd party support files"
 tar jxf $STATIC/dejavu-fonts-ttf-2.37.tar.bz2
