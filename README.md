@@ -12,7 +12,7 @@ The macOS version is semi-straightforward. It comes in two versions:
 If #2 does not work, you will have to try to walk through #1 but with the disadvantage
 that a bunch of things will already be half-installed. 
 
-This script has 'worked for me' status: a clean installation of macOS 10.12.2 successfully loaded this.
+This script has 'worked for me' status: clean installations of macOS 10.12.2 and 10.13.2 successfully loaded this.
 So if you want to pick door #2, launch Terminal.app and paste the following into it:
 
 ```
