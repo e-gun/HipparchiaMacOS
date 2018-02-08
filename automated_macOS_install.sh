@@ -88,7 +88,7 @@ cp -rp $MACPATH/macos_dbload_hipparchia.app $LOADERPATH/load_hipparchia_data.app
 printf "${WHITE}preparing the python virtual environment${NC}\n"
 /usr/local/bin/python3.6 -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
-$HIPPHOME/bin/pip3 install bs4 flask psycopg2 websockets scipy numpy
+$HIPPHOME/bin/pip3 install bs4 flask psycopg2 websockets scipy numpy gensim
 
 
 # build the db framework
