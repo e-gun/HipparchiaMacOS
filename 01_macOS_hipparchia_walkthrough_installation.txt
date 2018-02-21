@@ -67,7 +67,7 @@ psql hipparchiaDB
 
 /usr/local/bin/python3.6 -m venv ~/hipparchia_venv/
 source ~/hipparchia_venv/bin/activate
-~/hipparchia_venv/bin/pip3 install bs4 flask psycopg2 websockets scipy numpy gensim sklearn matplotlib networkx
+~/hipparchia_venv/bin/pip3 install bs4 flask psycopg2-binary websockets scipy numpy gensim sklearn matplotlib networkx
 
 cp ~/hipparchia_venv/HipparchiaBuilder/sample_config.ini ~/hipparchia_venv/HipparchiaBuilder/config.ini
 cp ~/hipparchia_venv/HipparchiaServer/sample_config.py ~/hipparchia_venv/HipparchiaServer/config.py
