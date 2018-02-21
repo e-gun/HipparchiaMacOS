@@ -88,7 +88,7 @@ cp -rp $MACPATH/macos_dbload_hipparchia.app $LOADERPATH/load_hipparchia_data.app
 printf "${WHITE}preparing the python virtual environment${NC}\n"
 /usr/local/bin/python3.6 -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
-$HIPPHOME/bin/pip3 install bs4 flask psycopg2 websockets scipy numpy gensim sklearn
+$HIPPHOME/bin/pip3 install bs4 flask psycopg2 websockets scipy numpy gensim sklearn matplotlib networkx 
 printf "Not installed: ${RED}tensorflow${NC}\n"
 printf "You will need to add this manually later if you turn on the relevant option in ${WHITE}config.py${NC}\n"
 
