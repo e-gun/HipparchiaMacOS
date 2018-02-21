@@ -88,7 +88,7 @@ cp -rp $MACPATH/macos_dbload_hipparchia.app $LOADERPATH/load_hipparchia_data.app
 printf "${WHITE}preparing the python virtual environment${NC}\n"
 /usr/local/bin/python3.6 -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
-$HIPPHOME/bin/pip3 install bs4 flask psycopg2 websockets scipy numpy gensim annoy
+$HIPPHOME/bin/pip3 install bs4 flask psycopg2 websockets scipy numpy gensim cython annoy
 
 
 # build the db framework
@@ -146,6 +146,8 @@ fi
 if [ ! -f "$SERVERPATH/config.py" ]; then
 	sed "s/DBPASS = 'yourpassheretrytomakeitstrongplease'/DBPASS = '$RDPASS'/" $SERVERPATH/sample_config.py > $SERVERPATH/config.py
 	sed -i "" "s/SECRET_KEY = 'yourkeyhereitshouldbelongandlooklikecryptographicgobbledygook'/SECRET_KEY = '$SKRKEY'/" $SERVERPATH/config.py
+	sed -i "" "s/WRITEUSER = 'consider_re-using_HipparchiaBuilder_user'/WRITEUSER = 'hippa_wr'/" $SERVERPATH/config.py
+	sed -i "" "s/DBWRITEPASS = 'consider_re-using_HipparchiaBuilder_pass'/DBWRITEPASS = '$WRPASS'/" $SERVERPATH/config.py	
 	# note: this only works if pg_hba.conf has 'trust' in localhost for `whoami`
 	/usr/local/bin/psql -d $THEDB --command="ALTER ROLE hippa_rd WITH PASSWORD '$RDPASS';"
 else
