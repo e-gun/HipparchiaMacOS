@@ -88,7 +88,7 @@ cp -rp $MACPATH/macos_dbload_hipparchia.app $LOADERPATH/load_hipparchia_data.app
 printf "${WHITE}preparing the python virtual environment${NC}\n"
 /usr/local/bin/python3.6 -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
-$HIPPHOME/bin/pip3 install bs4 flask psycopg2-binary websockets scipy numpy gensim sklearn matplotlib networkx 
+$HIPPHOME/bin/pip3 install bs4 flask psycopg2-binary websockets cython scipy numpy gensim sklearn matplotlib networkx 
 printf "Not installed: ${RED}tensorflow${NC}\n"
 printf "You will need to add this manually later if you turn on the relevant option in ${WHITE}config.py${NC}\n"
 
@@ -164,7 +164,7 @@ GET="/usr/local/bin/wget"
 STATIC="$SERVERPATH/server/static"
 
 cd $STATIC/
-$GET https://code.jquery.com/jquery-3.1.0.min.js
+$GET https://code.jquery.com/jquery-3.3.1.min.js
 mv $STATIC/jquery-3.1.0.min.js $STATIC/jquery.min.js
 $GET https://raw.githubusercontent.com/js-cookie/js-cookie/master/src/js.cookie.js
 $GET https://github.com/dejavu-fonts/dejavu-fonts/releases/download/version_2_37/dejavu-fonts-ttf-2.37.tar.bz2

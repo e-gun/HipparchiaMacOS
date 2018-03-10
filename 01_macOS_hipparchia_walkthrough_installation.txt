@@ -88,7 +88,7 @@ cp ~/hipparchia_venv/HipparchiaBuilder/config.ini ~/hipparchia_venv/HipparchiaSQ
 # now we can cut-and-paste again
 # [install jquery, fonts, etc. in ~/hipparchia_venv/HipparchiaServer/server/static/]
 
-curl https://code.jquery.com/jquery-3.1.0.min.js > ~/hipparchia_venv/HipparchiaServer/server/static/jquery.min.js
+curl https://code.jquery.com/jquery-3.3.1.min.js > ~/hipparchia_venv/HipparchiaServer/server/static/jquery.min.js
 curl https://raw.githubusercontent.com/js-cookie/js-cookie/master/src/js.cookie.js > ~/hipparchia_venv/HipparchiaServer/server/static/js.cookie.js
 curl -LOk https://github.com/dejavu-fonts/dejavu-fonts/releases/download/version_2_37/dejavu-fonts-ttf-2.37.tar.bz2 > ~/hipparchia_venv/HipparchiaServer/server/static/dejavu-fonts-ttf-2.37.tar.bz2
 curl -LOk https://noto-website.storage.googleapis.com/pkgs/NotoSans-unhinted.zip > ~/hipparchia_venv/HipparchiaServer/server/static/NotoSans-unhinted.zip
