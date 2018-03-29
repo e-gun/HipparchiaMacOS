@@ -97,15 +97,20 @@ curl -LOk https://github.com/google/fonts/raw/master/apache/robotocondensed/Robo
 curl -LOk https://github.com/google/roboto/raw/master/src/hinted/Roboto-Thin.ttf > ~/hipparchia_venv/HipparchiaServer/server/static/Roboto-Thin.ttf
 curl -LOk https://github.com/google/roboto/raw/master/src/hinted/Roboto-Light.ttf > ~/hipparchia_venv/HipparchiaServer/server/static/Roboto-Light.ttf
 curl -LOk http://jqueryui.com/resources/download/jquery-ui-1.12.1.zip ~/hipparchia_venv/HipparchiaServer/server/static/jquery-ui-1.12.1.zip
+curl -LOK https://github.com/IBM/plex/releases/download/v1.0.1/TrueType.zip > ~/hipparchia_venv/HipparchiaServer/server/static/TrueType.zip
+
 cd ~/hipparchia_venv/HipparchiaServer/server/static/
 tar jxf ~/hipparchia_venv/HipparchiaServer/server/static/dejavu-fonts-ttf-2.37.tar.bz2
 cp ~/hipparchia_venv/HipparchiaServer/server/static/dejavu-fonts-ttf-2.37/ttf/*.ttf ~/hipparchia_venv/HipparchiaServer/server/static/ttf/
 unzip ~/hipparchia_venv/HipparchiaServer/server/static/jquery-ui-1.12.1.zip
 unzip ~/hipparchia_venv/HipparchiaServer/server/static/NotoSans-unhinted.zip
+unzip ~/hipparchia_venv/HipparchiaServer/server/static/TrueType.zip
+unzip ~/hipparchia_venv/HipparchiaServer/server/static//TrueType.zip
+mv ~/hipparchia_venv/HipparchiaServer/server/static//TrueType/*/*.ttf $STATIC/ttf/
 mv ~/hipparchia_venv/HipparchiaServer/server/static/*.ttf ~/hipparchia_venv/HipparchiaServer/server/static/ttf/
 cp ~/hipparchia_venv/HipparchiaServer/server/static/jquery-ui-1.12.1/jquery-ui* ~/hipparchia_venv/HipparchiaServer/server/static/
 cp ~/hipparchia_venv/HipparchiaServer/server/static/jquery-ui-1.12.1/images/*.png ~/hipparchia_venv/HipparchiaServer/server/static/images/
-rm -rf ~/hipparchia_venv/HipparchiaServer/server/static/NotoSans-unhinted.zip ~/hipparchia_venv/HipparchiaServer/server/static/dejavu-fonts-ttf-2.37.tar.bz2 ~/hipparchia_venv/HipparchiaServer/server/static/jquery-ui-1.12.1.zip ~/hipparchia_venv/HipparchiaServer/server/static/jquery-ui-1.12.1/ ~/hipparchia_venv/HipparchiaServer/server/static/dejavu-fonts-ttf-2.37/
+rm -rf ~/hipparchia_venv/HipparchiaServer/server/static/NotoSans-unhinted.zip ~/hipparchia_venv/HipparchiaServer/server/static/dejavu-fonts-ttf-2.37.tar.bz2 ~/hipparchia_venv/HipparchiaServer/server/static/jquery-ui-1.12.1.zip ~/hipparchia_venv/HipparchiaServer/server/static/jquery-ui-1.12.1/ ~/hipparchia_venv/HipparchiaServer/server/static/dejavu-fonts-ttf-2.37/ ~/hipparchia_venv/HipparchiaServer/server/static/TrueType*
 
 # here comes the SHOWSTOPPER moment if you are going to be a HipparchiaBuilder
 # IF YOU DO NOT HAVE ACCESS TO THE DATA, THEN YOU CAN'T BUILD
