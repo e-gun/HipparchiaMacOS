@@ -174,6 +174,9 @@ $GET https://noto-website.storage.googleapis.com/pkgs/NotoMono-hinted.zip
 $GET https://github.com/google/roboto/releases/download/v2.138/roboto-unhinted.zip
 $GET https://github.com/IBM/plex/releases/download/v1.0.1/TrueType.zip
 $GET http://jqueryui.com/resources/download/jquery-ui-1.12.1.zip
+$GET https://github.com/d3/d3/releases/download/v5.0.0/d3.zip
+curl https://cdn.rawgit.com/bmabey/pyLDAvis/files/ldavis.v1.0.0.js > $STATIC/jsforldavis.js
+# curl https://cdn.rawgit.com/bmabey/pyLDAvis/files/ldavis.v1.0.0.css > $SERVERPATH/server/css/ldavis.css
 
 echo "${WHITE}unpacking 3rd party support files"
 tar jxf $STATIC/dejavu-fonts-ttf-2.37.tar.bz2
@@ -185,10 +188,16 @@ unzip -o $STATIC/roboto-unhinted.zip
 mv $STATIC/*.ttf $STATIC/ttf/
 unzip $STATIC/TrueType.zip
 mv $STATIC/TrueType/*/*.ttf $STATIC/ttf/
+mkdir $STATIC/d3
+mv $STATIC/d3.zip $STATIC/d3/
+cd $STATIC/d3/
+unzip -o $STATIC/d3/d3.zip
+cd $STATIC/
+cp $STATIC/d3/d3.min.js $STATIC/jsd3.js
 unzip $STATIC/jquery-ui-1.12.1.zip
 cp $STATIC/jquery-ui-1.12.1/jquery-ui* $STATIC/
 cp $STATIC/jquery-ui-1.12.1/images/*.png $STATIC/images/
-rm -rf $STATIC/dejavu-fonts-ttf-2.37.tar.bz2 $STATIC/jquery-ui-1.12.1.zip $STATIC/jquery-ui-1.12.1/ $STATIC/dejavu-fonts-ttf-2.37/ $STATIC/roboto*.zip $STATIC/Noto*.zip $STATIC/TrueType*
+rm -rf $STATIC/dejavu-fonts-ttf-2.37.tar.bz2 $STATIC/jquery-ui-1.12.1.zip $STATIC/d3* $STATIC/jquery-ui-1.12.1/ $STATIC/dejavu-fonts-ttf-2.37/ $STATIC/roboto*.zip $STATIC/Noto*.zip $STATIC/TrueType*
 
 if [ ! -d "$DATAPATH/lexica" ]; then
 	printf "${WHITE}fetching the lexica${NC}\n"
