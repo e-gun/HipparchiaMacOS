@@ -15,6 +15,9 @@ YELLOW='\033[1;33m'
 WHITE='\033[1;37m'
 NC='\033[0m'
 
+# do you want to install vectors?
+read -p 'Do you want to install the semantic vector packages? (y/n) ' VECTORS
+
 # install brew
 BREW='/usr/local/bin/brew'
 
@@ -88,9 +91,10 @@ cp -rp $MACPATH/macos_dbload_hipparchia.app $LOADERPATH/load_hipparchia_data.app
 printf "${WHITE}preparing the python virtual environment${NC}\n"
 /usr/local/bin/python3.6 -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
-$HIPPHOME/bin/pip3 install bs4 flask psycopg2-binary websockets cython scipy numpy gensim sklearn pyLDAvis matplotlib networkx 
-printf "Not installed: ${RED}tensorflow${NC}\n"
-printf "You will need to add this manually later if you turn on the relevant option in ${WHITE}config.py${NC}\n"
+$HIPPHOME/bin/pip3 install bs4 flask psycopg2-binary websockets 
+if [ "$VECTORS" == "y" ]; then
+	$HIPPHOME/bin/pip3 install cython scipy numpy gensim sklearn pyLDAvis matplotlib networkx 
+fi
 
 # build the db framework
 # held off on this because we were getting here before '$BREW services start postgresql' was ready for us
@@ -172,6 +176,7 @@ $GET https://noto-website.storage.googleapis.com/pkgs/NotoSans-unhinted.zip
 $GET https://noto-website-2.storage.googleapis.com/pkgs/NotoSansDisplay-unhinted.zip
 $GET https://noto-website.storage.googleapis.com/pkgs/NotoMono-hinted.zip
 $GET https://github.com/google/roboto/releases/download/v2.138/roboto-unhinted.zip
+$GET https://github.com/google/fonts/blob/master/apache/robotomono/RobotoMono-Medium.ttf
 $GET https://github.com/IBM/plex/releases/download/v1.0.1/TrueType.zip
 $GET http://jqueryui.com/resources/download/jquery-ui-1.12.1.zip
 $GET https://github.com/d3/d3/releases/download/v5.0.0/d3.zip
@@ -211,12 +216,23 @@ if [ ! -d "$DATAPATH/lexica" ]; then
 	mv $DATAPATH/lexica/1999.04.0059.xml $DATAPATH/lexica/latin-lexicon_1999.04.0059.xml
 fi
 
-printf "\n\n${RED}congratulations, you are ready to build${NC}\n[provided you did not see any show-stopping error messages above...]\n\n"
-printf "[A1] If you are ${WHITE}building${NC}, make sure that your ${YELLOW}data files${NC} are all in place and that their locations reflect the values set in ${YELLOW}$BUILDERPATH/config.ini${NC}\n\n"
+printf "\n\n${RED}CONGRATULATIONS: You have installed the Hipparchia framework${NC}\n[provided you did not see any show-stopping error messages above...]\n\n"
+printf "[A1] If you are ${WHITE}building${NC}, make sure that your ${YELLOW}data files${NC} are all in place\nand that their locations reflect the values set in:\n\t${YELLOW}$BUILDERPATH/config.ini${NC}\n\n"
 printf "after that you can execute the following in the Terminal.app:\n"
 printf "\t${WHITE}cd $BUILDERPATH && $HIPPHOME/bin/python3 ./makecorpora.py${NC}\n\n"
-printf "[A2] Alternately you are ${WHITE}reloading${NC}. Make sure that your ${YELLOW}sqldump files${NC} are all in place and that their locations reflect the values set in ${YELLOW}$LOADERPATH/config.ini${NC}\n\n"
-printf "after that you can double-click ${WHITE}load_hipparchia_data.app${NC} which is located at ${WHITE}${LOADERPATH}${NC}\n"
-printf "[B] Once the databases are loaded all you need to do is double-click ${WHITE}launch_hipparchia.app${NC} which is presently located at $HIPPHOME\n\n"
+printf "[A2] Alternately you are ${WHITE}reloading${NC}. Make sure that your ${YELLOW}sqldump files${NC} are all in place\nand that their locations reflect the values set in:\n\t${YELLOW}$LOADERPATH/config.ini${NC}\n\n"
+printf "after that you can double-click ${WHITE}load_hipparchia_data.app${NC} which is located at:\n\t${WHITE}${LOADERPATH}${NC}\n\n"
+printf "[B] Once the databases are loaded all you need to do is double-click ${WHITE}launch_hipparchia.app${NC}\nThis app is presently located at:\n\t${WHITE}${HIPPHOME}${NC}\n\n"
+printf "\n"
+printf "Not installed: ${RED}tensorflow${NC}\n"
+printf "You will need to add this manually later if you turn on the relevant option in ${WHITE}config.py${NC}\n\n"
+
+if [ "$VECTORS" != "y" ]; then
+	printf "Not installed: ${RED}cython scipy numpy gensim sklearn pyLDAvis matplotlib networkx${NC}\n"
+	printf "You will need to add them manually later if you turn on the relevant options in ${WHITE}config.py${NC}\n\n"
+fi
+
+printf "Additional packages are installed by executing the following command:\n\t${WHITE}${HIPPHOME}/bin/pip3 install packagename1 packagename2 packagename3 ...${NC}\n\n"
+
 
 
