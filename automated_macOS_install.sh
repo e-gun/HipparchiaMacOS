@@ -1,6 +1,19 @@
 #!/bin/bash
 
-HIPPHOME="$HOME/hipparchia_venv"
+DEFAUTLTHIPPHOME="$HOME/hipparchia_venv"
+
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+WHITE='\033[1;37m'
+NC='\033[0m'
+
+# change $HOME?
+printf "${WHITE}Where should Hipparchia live?${NC}\n"
+read -p "Press RETURN to install in the default directory [$DEFAUTLTHIPPHOME] otherwise submit a directory PATH: " HIPPHOME
+HIPPHOME=${HIPPHOME:-$DEFAUTLTHIPPHOME}
+
+printf "${WHITE}Installing to '${YELLOW}${HIPPHOME}${NC}${WHITE}'${NC} \n"
+
 SERVERPATH="$HIPPHOME/HipparchiaServer"
 BUILDERPATH="$HIPPHOME/HipparchiaBuilder"
 LOADERPATH="$HIPPHOME/HipparchiaSQLoader"
@@ -8,12 +21,6 @@ BSDPATH="$HIPPHOME/HipparchiaBSD"
 MACPATH="$HIPPHOME/HipparchiaMacOS"
 DATAPATH="$HIPPHOME/HipparchiaData"
 THEDB="hipparchiaDB"
-
-
-RED='\033[0;31m'
-YELLOW='\033[1;33m'
-WHITE='\033[1;37m'
-NC='\033[0m'
 
 # do you want to install vectors?
 read -p 'Do you want to install the semantic vector packages? (y/n) ' VECTORS
@@ -36,7 +43,7 @@ else
 	echo "`/usr/local/bin/git --version` installed; will not ask brew to install git"
 fi
 
-if [ ! -f  '/usr/local/bin/python3.6' ]; then
+if [ ! -f  '/usr/local/bin/python3' ]; then
 	$BREW install python3
 else
 	echo "`/usr/local/bin/python -V` installed; will not ask brew to install python"
@@ -89,7 +96,7 @@ cp -rp $MACPATH/macos_dbload_hipparchia.app $LOADERPATH/load_hipparchia_data.app
 
 # prepare the python virtual environment
 printf "${WHITE}preparing the python virtual environment${NC}\n"
-/usr/local/bin/python3.6 -m venv $HIPPHOME
+/usr/local/bin/python3 -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
 $HIPPHOME/bin/pip3 install bs4 flask psycopg2-binary websockets 
 if [ "$VECTORS" == "y" ]; then
