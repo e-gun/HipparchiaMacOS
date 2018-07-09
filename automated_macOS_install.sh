@@ -102,7 +102,9 @@ $HIPPHOME/bin/pip3 install bs4 flask psycopg2-binary
 # websockets 5.0.1 does not support python3.7, but master repo does...
 $HIPPHOME/bin/pip3 install https://github.com/aaugustin/websockets/archive/master.zip
 if [ "$VECTORS" == "y" ]; then
-	$HIPPHOME/bin/pip3 install cython scipy numpy gensim sklearn pyLDAvis matplotlib networkx 
+	$HIPPHOME/bin/pip3 install cython scipy numpy gensim pyLDAvis matplotlib networkx 
+	# sklearn is also broken with python3.7 unless you go to the master repo
+	$HIPPHOME/bin/pip3 install https://github.com/scikit-learn/scikit-learn/archive/master.zip
 fi
 
 # build the db framework
