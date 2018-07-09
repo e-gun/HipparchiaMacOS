@@ -31,3 +31,9 @@ But the brazen individual can just open Terminal.app and paste the following int
 ```
 curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_install.sh | /bin/bash
 ```
+
+Maybe you don't want vectors and graphs. Maybe you do not need lots of fonts. For the minimal install try:
+
+```
+curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_minimal_install.sh | /bin/bash
+```

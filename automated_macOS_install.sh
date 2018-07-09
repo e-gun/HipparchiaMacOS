@@ -98,7 +98,9 @@ cp -rp $MACPATH/macos_dbload_hipparchia.app $LOADERPATH/load_hipparchia_data.app
 printf "${WHITE}preparing the python virtual environment${NC}\n"
 /usr/local/bin/python3 -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
-$HIPPHOME/bin/pip3 install bs4 flask psycopg2-binary websockets 
+$HIPPHOME/bin/pip3 install bs4 flask psycopg2-binary 
+# websockets 5.0.1 does not support python3.7, but master repo does...
+$HIPPHOME/bin/pip3 install https://github.com/aaugustin/websockets/archive/master.zip
 if [ "$VECTORS" == "y" ]; then
 	$HIPPHOME/bin/pip3 install cython scipy numpy gensim sklearn pyLDAvis matplotlib networkx 
 fi
