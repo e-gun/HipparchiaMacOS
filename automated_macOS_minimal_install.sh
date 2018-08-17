@@ -7,10 +7,11 @@ YELLOW='\033[1;33m'
 WHITE='\033[1;37m'
 NC='\033[0m'
 
-# change $HOME?
-printf "${WHITE}Where should Hipparchia live?${NC}\n"
-read -p "Press RETURN to install in the default directory [$DEFAUTLTHIPPHOME] otherwise submit a directory PATH: " HIPPHOME
-HIPPHOME=${HIPPHOME:-$DEFAUTLTHIPPHOME}
+# change $HIPPHOME? but this syntax is killing older installations...
+# printf "${WHITE}Where should Hipparchia live?${NC}\n"
+# read -p "Press RETURN to install in the default directory [$DEFAUTLTHIPPHOME] otherwise submit a directory PATH: " HIPPHOME
+# HIPPHOME=${HIPPHOME:-$DEFAUTLTHIPPHOME}
+HIPPHOME=$DEFAUTLTHIPPHOME
 
 printf "${WHITE}Installing to '${YELLOW}${HIPPHOME}${NC}${WHITE}'${NC} \n"
 

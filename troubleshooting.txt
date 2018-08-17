@@ -1,0 +1,24 @@
+
+
+Troubleshooting:
+
+[a] A hard crash of macOS can break the ability of brew to autostart postgresql
+
+Hipparchia will give the following error when you try to launch:
+
+	psycopg2.OperationalError: could not connect to server: Connection refused
+		Is the server running on host "127.0.0.1" and accepting
+		TCP/IP connections on port 5432?
+
+The problem is that there is a lock that did not get cleared owing to the crash.
+
+Delete the following file:
+
+	/usr/local/var/postgres/postmaster.pid
+	
+Then you can restart the service:
+
+	brew services restart postgresql
+
+
+	
