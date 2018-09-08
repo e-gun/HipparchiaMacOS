@@ -7,10 +7,21 @@ YELLOW='\033[1;33m'
 WHITE='\033[1;37m'
 NC='\033[0m'
 
-# change $HOME?
-printf "${WHITE}Where should Hipparchia live?${NC}\n"
-read -p "Press RETURN to install in the default directory [$DEFAUTLTHIPPHOME] otherwise submit a directory PATH: " HIPPHOME
-HIPPHOME=${HIPPHOME:-$DEFAUTLTHIPPHOME}
+# $1 and $2 indicate installation type and vectors options
+
+[[ 'standard minimal devel' =~ (^|[[:space:]])"$1"($|[[:space:]]) ]] && OPTION=$1 || OPTION='standard'
+
+if [[ $2 == 'vectors' ]]; then
+        VECTORS="y"
+else
+        VECTORS="n"
+fi
+
+# change $HOME? [problems on older systems]
+# printf "${WHITE}Where should Hipparchia live?${NC}\n"
+# read -p "Press RETURN to install in the default directory [$DEFAUTLTHIPPHOME] otherwise submit a directory PATH: " HIPPHOME
+# HIPPHOME=${HIPPHOME:-$DEFAUTLTHIPPHOME}
+HIPPHOME=$DEFAUTLTHIPPHOME
 
 printf "${WHITE}Installing to '${YELLOW}${HIPPHOME}${NC}${WHITE}'${NC} \n"
 
@@ -21,9 +32,6 @@ BSDPATH="$HIPPHOME/HipparchiaBSD"
 MACPATH="$HIPPHOME/HipparchiaMacOS"
 DATAPATH="$HIPPHOME/HipparchiaData"
 THEDB="hipparchiaDB"
-
-# do you want to install vectors?
-read -p 'Do you want to install the semantic vector packages? (y/n) ' VECTORS
 
 # install brew
 BREW='/usr/local/bin/brew'
@@ -41,25 +49,6 @@ if [ ! -f  '/usr/local/bin/git' ]; then
 	$BREW install git
 else
 	echo "`/usr/local/bin/git --version` installed; will not ask brew to install git"
-fi
-
-if [ ! -f  '/usr/local/bin/python3' ]; then
-	$BREW install python3
-else
-	echo "`/usr/local/bin/python -V` installed; will not ask brew to install python"
-fi
-
-if [ ! -f  '/usr/local/bin/psql' ]; then
-	$BREW install postgresql
-	$BREW services start postgresql
-else
-	echo "`/usr/local/bin/psql -V` installed; will not ask brew to install psql"
-fi
-
-if [ ! -f  '/usr/local/bin/wget' ]; then
-	$BREW install wget
-else
-	echo "wget already installed; will not ask brew to install wget"
 fi
 
 GIT='/usr/local/bin/git'
@@ -93,6 +82,29 @@ chmod 700 $HIPPHOME/selfupdate.sh
 cp -rp $MACPATH/macos_launch_hipparchia_application.app $HIPPHOME/launch_hipparchia.app
 cp -rp $MACPATH/macos_dbload_hipparchia.app $LOADERPATH/load_hipparchia_data.app
 
+if [ ! -f  '/usr/local/bin/python3' ]; then
+	$BREW install python3
+else
+	echo "`/usr/local/bin/python -V` installed; will not ask brew to install python"
+fi
+
+if [ ! -f  '/usr/local/bin/psql' ]; then
+	$BREW install postgresql
+	$BREW services start postgresql
+else
+	echo "`/usr/local/bin/psql -V` installed; will not ask brew to install psql"
+fi
+
+if [ ! -f  '/usr/local/bin/wget' ]; then
+	$BREW install wget
+else
+	echo "wget already installed; will not ask brew to install wget"
+fi
+
+if [[ ${OPTION} == 'devel' ]]; then
+	$BREW install redis
+	$BREW services start redis
+fi
 
 # prepare the python virtual environment
 printf "${WHITE}preparing the python virtual environment${NC}\n"
@@ -105,6 +117,9 @@ if [ "$VECTORS" == "y" ]; then
 	$HIPPHOME/bin/pip3 install cython scipy numpy gensim pyLDAvis matplotlib networkx 
 	# sklearn is also broken with python3.7 unless you go to the master repo
 	$HIPPHOME/bin/pip3 install https://github.com/scikit-learn/scikit-learn/archive/master.zip
+fi
+if [[ ${OPTION} == 'devel' ]]; then
+	$HIPPHOME/bin/pip3 install redis
 fi
 
 # build the db framework
@@ -159,11 +174,13 @@ if [ ! -f "$LOADERPATH/config.ini" ]; then
 	sed "s/DBPASS = yourpasshere/DBPASS = $WRPASS/" $LOADERPATH/sample_config.ini > $LOADERPATH/config.ini
 fi
 
-if [ ! -f "$SERVERPATH/config.py" ]; then
-	sed "s/DBPASS = 'yourpassheretrytomakeitstrongplease'/DBPASS = '$RDPASS'/" $SERVERPATH/sample_config.py > $SERVERPATH/config.py
-	sed -i "" "s/SECRET_KEY = 'yourkeyhereitshouldbelongandlooklikecryptographicgobbledygook'/SECRET_KEY = '$SKRKEY'/" $SERVERPATH/config.py
-	sed -i "" "s/WRITEUSER = 'consider_re-using_HipparchiaBuilder_user'/WRITEUSER = 'hippa_wr'/" $SERVERPATH/config.py
-	sed -i "" "s/DBWRITEPASS = 'consider_re-using_HipparchiaBuilder_pass'/DBWRITEPASS = '$WRPASS'/" $SERVERPATH/config.py	
+if [ ! -d "$SERVERPATH/settings/" ]; then
+	cp -rp $SERVERPATH/sample_settings $SERVERPATH/settings
+	CONFIGFILE="$SERVERPATH/settings/securitysettings.py"
+	sed "s/DBPASS = 'yourpassheretrytomakeitstrongplease'/DBPASS = '$RDPASS'/" $CONFIGFILE > $CONFIGFILE
+	sed -i "" "s/SECRET_KEY = 'yourkeyhereitshouldbelongandlooklikecryptographicgobbledygook'/SECRET_KEY = '$SKRKEY'/" $CONFIGFILE
+	sed -i "" "s/WRITEUSER = 'consider_re-using_HipparchiaBuilder_user'/WRITEUSER = 'hippa_wr'/" $CONFIGFILE
+	sed -i "" "s/DBWRITEPASS = 'consider_re-using_HipparchiaBuilder_pass'/DBWRITEPASS = '$WRPASS'/" $CONFIGFILE	
 	# note: this only works if pg_hba.conf has 'trust' in localhost for `whoami`
 	/usr/local/bin/psql -d $THEDB --command="ALTER ROLE hippa_rd WITH PASSWORD '$RDPASS';"
 else
@@ -189,6 +206,7 @@ $GET https://noto-website.storage.googleapis.com/pkgs/NotoMono-hinted.zip
 $GET https://github.com/google/roboto/releases/download/v2.138/roboto-unhinted.zip
 $GET https://github.com/google/fonts/blob/master/apache/robotomono/RobotoMono-Medium.ttf
 $GET https://github.com/IBM/plex/releases/download/v1.0.1/TrueType.zip
+# $GET http://www.latofonts.com/download/Lato2OFL.zip
 $GET http://jqueryui.com/resources/download/jquery-ui-1.12.1.zip
 $GET https://github.com/d3/d3/releases/download/v5.0.0/d3.zip
 curl https://cdn.rawgit.com/bmabey/pyLDAvis/files/ldavis.v1.0.0.js > $STATIC/jsforldavis.js

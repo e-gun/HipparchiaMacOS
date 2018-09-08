@@ -5,7 +5,10 @@ HipparchiaBuilder and HipparchiaServer.
 
 The macOS version is semi-straightforward.
 
-This script is verified to work on clean installations of macOS 10.12.X and 10.13.X.
+This script is verified to work on clean installations of macOS 10.12.X and 10.13.X. 
+10.10.X and 10.11.X can install Hipparchia, but things can be slow. 
+The glitches with old systems have (maybe) been removed. 
+Testing those system profiles is not a priority...
 
 This will download, configure and install all of the starter files.
 
@@ -23,7 +26,8 @@ curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_ma
 more automated_macOS_install.sh
 
 [execute]
-/bin/sh automated_macOS_install.sh
+/bin/bash automated_macOS_install.sh
+
 ```
 
 But the brazen individual can just open Terminal.app and paste the following into it:
@@ -32,9 +36,13 @@ But the brazen individual can just open Terminal.app and paste the following int
 curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_install.sh | /bin/bash
 ```
 
-Maybe you don't want vectors and graphs. Maybe you do not need lots of fonts. Maybe you do not like to read endless deprecation warnings hurled by the scientific packages. 
-For the minimal install try:
+The script takes arguments that set the style of installation (minimal, standard, devel) as well as the desire for vectors. 
+'vectors' must be explicitly requested after a valid style: e.g., 'automated_macOS_install.sh standard vectors'
 
 ```
-curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_minimal_install.sh | /bin/bash
+[bare minimum]
+curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_minimal_install.sh | /bin/bash -s minimal
+
+[maximum: devel + vectors]
+curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_minimal_install.sh | /bin/bash -s standard vectors
 ```
