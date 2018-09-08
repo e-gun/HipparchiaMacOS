@@ -41,8 +41,8 @@ The script takes arguments that set the style of installation (minimal, standard
 
 ```
 [bare minimum]
-curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_minimal_install.sh | /bin/bash -s minimal
+curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_install.sh | /bin/bash -s minimal
 
 [maximum: devel + vectors]
-curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_minimal_install.sh | /bin/bash -s standard vectors
+curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_install.sh | /bin/bash -s standard vectors
 ```
