@@ -44,7 +44,6 @@ else
 	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-
 if [ ! -f  '/usr/local/bin/git' ]; then
 	$BREW install git
 else
@@ -71,7 +70,12 @@ do
 	fi
 done
 
-cd $SERVERPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaServer.git
+if [[ ${OPTION} == 'devel' ]]; then
+	cd $SERVERPATH && $GIT init && $GIT clone -b devel https://github.com/e-gun/HipparchiaServer.git
+else
+	cd $SERVERPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaServer.git
+fi
+
 cd $BUILDERPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaBuilder.git
 cd $LOADERPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaSQLoader.git
 cd $BSDPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaBSD.git
@@ -175,9 +179,9 @@ if [ ! -f "$LOADERPATH/config.ini" ]; then
 fi
 
 if [ ! -d "$SERVERPATH/settings/" ]; then
-	cp -rp $SERVERPATH/sample_settings $SERVERPATH/settings
-	CONFIGFILE="$SERVERPATH/settings/securitysettings.py"
-	sed "s/DBPASS = 'yourpassheretrytomakeitstrongplease'/DBPASS = '$RDPASS'/" $CONFIGFILE > $CONFIGFILE
+	cp -rp $SERVERPATH/server/sample_settings $SERVERPATH/server/settings
+	CONFIGFILE="$SERVERPATH/server/settings/securitysettings.py"
+	sed -i "" "s/DBPASS = 'yourpassheretrytomakeitstrongplease'/DBPASS = '$RDPASS'/" $CONFIGFILE
 	sed -i "" "s/SECRET_KEY = 'yourkeyhereitshouldbelongandlooklikecryptographicgobbledygook'/SECRET_KEY = '$SKRKEY'/" $CONFIGFILE
 	sed -i "" "s/WRITEUSER = 'consider_re-using_HipparchiaBuilder_user'/WRITEUSER = 'hippa_wr'/" $CONFIGFILE
 	sed -i "" "s/DBWRITEPASS = 'consider_re-using_HipparchiaBuilder_pass'/DBWRITEPASS = '$WRPASS'/" $CONFIGFILE	
@@ -199,29 +203,32 @@ cd $STATIC/
 $GET https://code.jquery.com/jquery-3.3.1.min.js
 mv $STATIC/jquery-3.3.1.min.js $STATIC/jquery.min.js
 $GET https://raw.githubusercontent.com/js-cookie/js-cookie/master/src/js.cookie.js
-$GET https://github.com/dejavu-fonts/dejavu-fonts/releases/download/version_2_37/dejavu-fonts-ttf-2.37.tar.bz2
-$GET https://noto-website.storage.googleapis.com/pkgs/NotoSans-unhinted.zip
-$GET https://noto-website-2.storage.googleapis.com/pkgs/NotoSansDisplay-unhinted.zip
-$GET https://noto-website.storage.googleapis.com/pkgs/NotoMono-hinted.zip
 $GET https://github.com/google/roboto/releases/download/v2.138/roboto-unhinted.zip
 $GET https://github.com/google/fonts/blob/master/apache/robotomono/RobotoMono-Medium.ttf
-$GET https://github.com/IBM/plex/releases/download/v1.0.1/TrueType.zip
-# $GET http://www.latofonts.com/download/Lato2OFL.zip
+if [[ ${OPTION} != 'minimal' ]]; then
+	$GET https://github.com/dejavu-fonts/dejavu-fonts/releases/download/version_2_37/dejavu-fonts-ttf-2.37.tar.bz2
+	$GET https://noto-website.storage.googleapis.com/pkgs/NotoSans-unhinted.zip
+	$GET https://noto-website-2.storage.googleapis.com/pkgs/NotoSansDisplay-unhinted.zip
+	$GET https://noto-website.storage.googleapis.com/pkgs/NotoMono-hinted.zip
+	$GET https://github.com/IBM/plex/releases/download/v1.0.1/TrueType.zip
+	# $GET http://www.latofonts.com/download/Lato2OFL.zip
+fi
 $GET http://jqueryui.com/resources/download/jquery-ui-1.12.1.zip
 $GET https://github.com/d3/d3/releases/download/v5.0.0/d3.zip
 curl https://cdn.rawgit.com/bmabey/pyLDAvis/files/ldavis.v1.0.0.js > $STATIC/jsforldavis.js
 # curl https://cdn.rawgit.com/bmabey/pyLDAvis/files/ldavis.v1.0.0.css > $SERVERPATH/server/css/ldavis.css
 
 echo "${WHITE}unpacking 3rd party support files"
-tar jxf $STATIC/dejavu-fonts-ttf-2.37.tar.bz2
-cp $STATIC/dejavu-fonts-ttf-2.37/ttf/*.ttf $STATIC/ttf/
-unzip $STATIC/NotoSans-unhinted.zip
-unzip -o $STATIC/NotoMono-hinted.zip
-unzip -o $STATIC/NotoSansDisplay-unhinted.zip
 unzip -o $STATIC/roboto-unhinted.zip
+if [[ ${OPTION} != 'minimal' ]]; then
+	tar jxf $STATIC/dejavu-fonts-ttf-2.37.tar.bz2
+	cp $STATIC/dejavu-fonts-ttf-2.37/ttf/*.ttf $STATIC/ttf/
+	unzip $STATIC/NotoSans-unhinted.zip
+	unzip -o $STATIC/NotoMono-hinted.zip
+	unzip -o $STATIC/NotoSansDisplay-unhinted.zip
+	unzip $STATIC/TrueType.zip
+	mv $STATIC/TrueType/*/*.ttf $STATIC/ttf/
 mv $STATIC/*.ttf $STATIC/ttf/
-unzip $STATIC/TrueType.zip
-mv $STATIC/TrueType/*/*.ttf $STATIC/ttf/
 mkdir $STATIC/d3
 mv $STATIC/d3.zip $STATIC/d3/
 cd $STATIC/d3/
