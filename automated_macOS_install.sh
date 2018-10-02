@@ -230,6 +230,8 @@ if [[ ${OPTION} != 'minimal' ]]; then
 	unzip -o $STATIC/NotoSansDisplay-unhinted.zip
 	unzip $STATIC/TrueType.zip
 	mv $STATIC/TrueType/*/*.ttf $STATIC/ttf/
+fi
+
 mv $STATIC/*.ttf $STATIC/ttf/
 mkdir $STATIC/d3
 mv $STATIC/d3.zip $STATIC/d3/
