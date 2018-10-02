@@ -5,8 +5,8 @@ HipparchiaBuilder and HipparchiaServer.
 
 The macOS version is semi-straightforward.
 
-This script is verified to work on clean installations of macOS 10.12.X and 10.13.X. 
-10.10.X and 10.11.X can install Hipparchia, but things can be slow. 
+This script is verified to work on clean installations of macOS 10.12-14. 
+10.10-11 can install Hipparchia, but things can be slow. 
 The glitches with old systems have (maybe) been removed. 
 Testing those system profiles is not a priority...
 
@@ -43,6 +43,6 @@ The script takes arguments that set the style of installation (minimal, standard
 [bare minimum]
 curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_install.sh | /bin/bash -s minimal
 
-[maximum: devel + vectors]
+[maximum: more fonts + vectors]
 curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_install.sh | /bin/bash -s standard vectors
 ```
