@@ -1,7 +1,5 @@
 #!/bin/bash
 
-DEFAUTLTHIPPHOME="$HOME/hipparchia_venv"
-
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
 WHITE='\033[1;37m'
@@ -17,6 +15,7 @@ else
         VECTORS="n"
 fi
 
+DEFAUTLTHIPPHOME="$HOME/hipparchia_venv"
 # change $HOME? [problems on older systems]
 # printf "${WHITE}Where should Hipparchia live?${NC}\n"
 # read -p "Press RETURN to install in the default directory [$DEFAUTLTHIPPHOME] otherwise submit a directory PATH: " HIPPHOME
@@ -32,6 +31,9 @@ BSDPATH="$HIPPHOME/HipparchiaBSD"
 MACPATH="$HIPPHOME/HipparchiaMacOS"
 DATAPATH="$HIPPHOME/HipparchiaData"
 THIRDPARTYPATH="$HIPPHOME/HipparchiaThirdPartySoftware"
+WINDOWSPATH="$HIPPHOME/HipparchiaWindows"
+STATIC="$SERVERPATH/server/static"
+TTF="$STATIC/ttf"
 THEDB="hipparchiaDB"
 
 # install brew
@@ -62,7 +64,7 @@ GIT='/usr/local/bin/git'
 # ready the installation files and directories
 printf "${WHITE}preparing the installation files and directories${NC}\n"
 
-for dir in $HIPPHOME $SERVERPATH $BUILDERPATH $LOADERPATH $BSDPATH $DATAPATH $MACPATH $THIRDPARTYPATH
+for dir in $HIPPHOME $SERVERPATH $BUILDERPATH $LOADERPATH $BSDPATH $DATAPATH $MACPATH $WINDOWSPATH $THIRDPARTYPATH
 do
 	if [ ! -d $dir ]; then
 		/bin/mkdir $dir
@@ -82,7 +84,7 @@ cd $LOADERPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaSQLo
 cd $BSDPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaBSD.git
 cd $MACPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaMacOS.git
 cd $THIRDPARTYPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaThirdPartySoftware.git
-
+cd $WINDOWSPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaWindows.git
 
 cp $MACPATH/macOS_selfupdate.sh $HIPPHOME/selfupdate.sh
 chmod 700 $HIPPHOME/selfupdate.sh
@@ -200,52 +202,48 @@ fi
 $BREW services restart postgresql
 
 # support files
-printf "${WHITE}fetching 3rd party support files${NC}\n"
-GET="/usr/local/bin/wget"
-STATIC="$SERVERPATH/server/static"
+printf "${WHITE}unpacking 3rd party support files${NC}\n"
 
-cd $STATIC/
-$GET https://code.jquery.com/jquery-3.3.1.min.js
-mv $STATIC/jquery-3.3.1.min.js $STATIC/jquery.min.js
-$GET https://raw.githubusercontent.com/js-cookie/js-cookie/master/src/js.cookie.js
-$GET https://github.com/google/roboto/releases/download/v2.138/roboto-unhinted.zip
-$GET https://github.com/google/fonts/blob/master/apache/robotomono/RobotoMono-Medium.ttf
+# FONTS
+cd $TTF/
+cp $THIRDPARTYPATH/minimal_installation/Noto*.zip $TTF/
 if [[ ${OPTION} != 'minimal' ]]; then
-	$GET https://github.com/dejavu-fonts/dejavu-fonts/releases/download/version_2_37/dejavu-fonts-ttf-2.37.tar.bz2
-	$GET https://noto-website.storage.googleapis.com/pkgs/NotoSans-unhinted.zip
-	$GET https://noto-website-2.storage.googleapis.com/pkgs/NotoSansDisplay-unhinted.zip
-	$GET https://noto-website.storage.googleapis.com/pkgs/NotoMono-hinted.zip
-	$GET https://github.com/IBM/plex/releases/download/v1.0.1/TrueType.zip
-	# $GET http://www.latofonts.com/download/Lato2OFL.zip
-fi
-$GET http://jqueryui.com/resources/download/jquery-ui-1.12.1.zip
-$GET https://github.com/d3/d3/releases/download/v5.0.0/d3.zip
-curl https://cdn.rawgit.com/bmabey/pyLDAvis/files/ldavis.v1.0.0.js > $STATIC/jsforldavis.js
-# curl https://cdn.rawgit.com/bmabey/pyLDAvis/files/ldavis.v1.0.0.css > $SERVERPATH/server/css/ldavis.css
-
-echo "${WHITE}unpacking 3rd party support files"
-unzip -o $STATIC/roboto-unhinted.zip
-if [[ ${OPTION} != 'minimal' ]]; then
-	tar jxf $STATIC/dejavu-fonts-ttf-2.37.tar.bz2
-	cp $STATIC/dejavu-fonts-ttf-2.37/ttf/*.ttf $STATIC/ttf/
-	unzip $STATIC/NotoSans-unhinted.zip
-	unzip -o $STATIC/NotoMono-hinted.zip
-	unzip -o $STATIC/NotoSansDisplay-unhinted.zip
-	unzip $STATIC/TrueType.zip
-	mv $STATIC/TrueType/*/*.ttf $STATIC/ttf/
+	cp $THIRDPARTYPATH/extra_fonts/*.ttf $TTF/
+	cp $THIRDPARTYPATH/extra_fonts/*.zip $TTF/
 fi
 
-mv $STATIC/*.ttf $STATIC/ttf/
-mkdir $STATIC/d3
-mv $STATIC/d3.zip $STATIC/d3/
-cd $STATIC/d3/
-unzip -o $STATIC/d3/d3.zip
+ZIPLIST=`ls -1 $TTF/*.zip`
+for Z in $ZIPLIST; do unzip -o $Z; done
+
+DBLSUBDIRS=`ls -d -1 $TTF/*/*/*.ttf`
+for D in $DBLSUBDIRS; do mv $D $TTF/; done
+
+INSUBDIRS=`ls -d -1 $TTF/*/*.ttf`
+for F in $INSUBDIRS; do mv $F $TTF/; done
+
+SUBDIRS=`ls -d -1 $TTF/*/`
+for S in $SUBDIRS; do rm -rf $S; done
+
+rm $TTF/*zip
+
+# JS
 cd $STATIC/
-cp $STATIC/d3/d3.min.js $STATIC/jsd3.js
-unzip $STATIC/jquery-ui-1.12.1.zip
-cp $STATIC/jquery-ui-1.12.1/jquery-ui* $STATIC/
+cp $THIRDPARTYPATH/minimal_installation/jquery-3.3.1.min.js $STATIC/jquery.min.js
+cp $THIRDPARTYPATH/minimal_installation/jquery-ui-1.12.1.zip $STATIC/
+cp $THIRDPARTYPATH/minimal_installation/js.cookie.js $STATIC/
+cp $THIRDPARTYPATH/vector_helpers/*.* $STATIC/
+
+ZIPLIST=`ls -1 $STATIC/*.zip`
+for Z in $ZIPLIST; do unzip -o $Z; done
+rm $STATIC/*zip
+rm $STATIC/*md
+rm $STATIC/LICENSE
+rm $STATIC/d3.js
+mv $STATIC/d3.min.js $STATIC/jsd3.js
+mv $STATIC/ldavis.v1.0.0.js $STATIC/jsforldavis.js
+cp $STATIC/jquery-ui-1.12.1/j* $STATIC/
 cp $STATIC/jquery-ui-1.12.1/images/*.png $STATIC/images/
-rm -rf $STATIC/dejavu-fonts-ttf-2.37.tar.bz2 $STATIC/jquery-ui-1.12.1.zip $STATIC/d3* $STATIC/jquery-ui-1.12.1/ $STATIC/dejavu-fonts-ttf-2.37/ $STATIC/roboto*.zip $STATIC/Noto*.zip $STATIC/TrueType*
+rm -rf $STATIC/jquery-ui-1.12.1/
 
 if [ ! -d "$DATAPATH/lexica" ]; then
 	printf "${WHITE}fetching the lexica${NC}\n"

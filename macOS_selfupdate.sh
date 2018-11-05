@@ -9,4 +9,6 @@ cd ~/hipparchia_venv/HipparchiaBuilder/ && git pull https://github.com/e-gun/Hip
 cd ~/hipparchia_venv/HipparchiaSQLoader/ && git pull https://github.com/e-gun/HipparchiaSQLoader.git
 cd ~/hipparchia_venv/HipparchiaBSD/ && git pull https://github.com/e-gun/HipparchiaBSD.git
 cd ~/hipparchia_venv/HipparchiaMacOS/ && git pull https://github.com/e-gun/HipparchiaMacOS.git
+cd ~/hipparchia_venv/HipparchiaThirdPartySoftware/ && git pull https://github.com/e-gun/HipparchiaThirdPartySoftware.git
+cd ~/hipparchia_venv/HipparchiaWindows/ && git pull https://github.com/e-gun/HipparchiaWindows.git
 cd ~
