@@ -249,6 +249,7 @@ if [ ! -d "$DATAPATH/lexica" ]; then
 	printf "${WHITE}fetching the lexica${NC}\n"
 	mkdir $DATAPATH/lexica/
 	cd $DATAPATH/lexica/
+	GET="/usr/local/bin/wget"
 	$GET https://community.dur.ac.uk/p.j.heslin/Software/Diogenes/Download/diogenes-linux-3.2.0.tar.bz2
 	tar jxf diogenes-linux-3.2.0.tar.bz2
 	mv $DATAPATH/lexica/diogenes-3.2.0/diogenes/perl/Perseus_Data/*.* $DATAPATH/lexica/
