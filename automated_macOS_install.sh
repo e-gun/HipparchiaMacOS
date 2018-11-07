@@ -166,9 +166,6 @@ RDPASS=`echo ${RDPASS//[^[:word:]]/}`
 SKRKEY=`echo ${SKRKEY//[^[:word:]]/}`
 
 printf "\n\n${WHITE}setting up your passwords in the configuration files${NC}\n"
-printf "\t${RED}hippa_wr${NC} password will be: ${YELLOW}${WRPASS}${NC}\n"
-printf "\t${RED}hippa_rd${NC} password will be: ${YELLOW}${RDPASS}${NC}\n"
-printf "\t${RED}secret key${NC} will be: ${YELLOW}${SKRKEY}${NC}\n\n"
 
 if [ ! -f "$BUILDERPATH/config.ini" ]; then
 	sed "s/DBPASS = >>yourpasshere<</DBPASS = $WRPASS/" $BUILDERPATH/sample_config.ini > $BUILDERPATH/config.ini
@@ -275,3 +272,9 @@ if [ "$VECTORS" != "y" ]; then
 fi
 
 printf "Additional packages are installed by executing the following command:\n\t${WHITE}${HIPPHOME}/bin/pip3 install packagename1 packagename2 packagename3 ...${NC}\n\n"
+
+printf "\n"
+printf "\n\n${WHITE}You have been assigned the following passwords:${NC}\n"
+printf "\t${RED}hippa_wr${NC} password will be: ${YELLOW}${WRPASS}${NC}\n"
+printf "\t${RED}hippa_rd${NC} password will be: ${YELLOW}${RDPASS}${NC}\n"
+printf "\t${RED}secret key${NC} will be: ${YELLOW}${SKRKEY}${NC}\n\n"
