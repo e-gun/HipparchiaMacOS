@@ -31,6 +31,7 @@ BSDPATH="$HIPPHOME/HipparchiaBSD"
 MACPATH="$HIPPHOME/HipparchiaMacOS"
 DATAPATH="$HIPPHOME/HipparchiaData"
 THIRDPARTYPATH="$HIPPHOME/HipparchiaThirdPartySoftware"
+EXTRAFONTPATH="$HIPPHOME/HipparchiaExtraFonts"
 WINDOWSPATH="$HIPPHOME/HipparchiaWindows"
 STATIC="$SERVERPATH/server/static"
 TTF="$STATIC/ttf"
@@ -84,6 +85,7 @@ cd $LOADERPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaSQLo
 cd $BSDPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaBSD.git
 cd $MACPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaMacOS.git
 cd $THIRDPARTYPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaThirdPartySoftware.git
+cd $EXTRAFONTPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaExtraFonts.git
 cd $WINDOWSPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaWindows.git
 
 cp $MACPATH/macOS_selfupdate.sh $HIPPHOME/selfupdate.sh
@@ -205,8 +207,10 @@ printf "${WHITE}unpacking 3rd party support files${NC}\n"
 cd $TTF/
 cp $THIRDPARTYPATH/minimal_installation/Noto*.zip $TTF/
 if [[ ${OPTION} != 'minimal' ]]; then
-	cp $THIRDPARTYPATH/extra_fonts/*.ttf $TTF/
-	cp $THIRDPARTYPATH/extra_fonts/*.zip $TTF/
+	cp $EXTRAFONTPATH/*.ttf $TTF/
+	cp $EXTRAFONTPATH/*.zip $TTF/
+	CONFIGFILE="$SERVERPATH/server/settings/htmlandcssstylesettings.py"
+	sed -i "" "s/ENBALEFONTPICKER = 'no'/ENBALEFONTPICKER = 'yes'/" $CONFIGFILE
 fi
 
 ZIPLIST=`ls -1 $TTF/*.zip`
