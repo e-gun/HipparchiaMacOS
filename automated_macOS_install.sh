@@ -65,7 +65,7 @@ GIT='/usr/local/bin/git'
 # ready the installation files and directories
 printf "${WHITE}preparing the installation files and directories${NC}\n"
 
-for dir in $HIPPHOME $SERVERPATH $BUILDERPATH $LOADERPATH $BSDPATH $DATAPATH $MACPATH $WINDOWSPATH $THIRDPARTYPATH
+for dir in $HIPPHOME $SERVERPATH $BUILDERPATH $LOADERPATH $BSDPATH $DATAPATH $MACPATH $WINDOWSPATH $EXTRAFONTPATH $THIRDPARTYPATH
 do
 	if [ ! -d $dir ]; then
 		/bin/mkdir $dir
