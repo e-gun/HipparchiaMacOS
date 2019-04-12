@@ -1,3 +1,4 @@
+
 ##GENERIC INSTALLATION OVERVIEW
 
 1. Top of repository:
@@ -36,13 +37,13 @@
 
     If you know somebody with a build, then you are interested in `HipparchiaSQLoader`.
     Your **reload** (via `reloadhipparchiaDBs.py`) the products of an 
-    **extraction** (via `extracthipparchiaDBs.py`). 
+    **extraction** (via `extracthipparchiaDBs.py`).  For example if A ran `extracthipparchiaDBs.py` and then put the `sqldump` folder on a thumb drive, 
+    B could move that folder from the drive into his/her `HipparchiaData` folder and then run 
+    `reloadhipparchiaDBs.py`. 
 
     Otherwise you need to build the databases yourself via `HipparchiaBuilder`.
     You put the data in the right place and then run `makecorpora.py`. 
-    For example if A ran `extracthipparchiaDBs.py` and then put the `sqldump` folder on a thumb drive, 
-    B could move that folder from the drive into his/her `HipparchiaData` folder and then run 
-    `reloadhipparchiaDBs.py`. 
+
 
 1. Then you will have a working installation. Now it is time to use `HipparchiaServer`. You can `run.py` whenever you want. 
     Mac people even have a handy `launch_hipparchia.app` that can be clicked. 
