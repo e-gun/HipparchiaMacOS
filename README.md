@@ -23,7 +23,7 @@
     After watching a lot of messages fly by you will have the full framework. Its probably good news 
     if you see the following: `CONGRATULATIONS: You have installed the Hipparchia framework`
 
-1. After you have instealled the software framework, you need to load the data. 
+1. After you have installed the software framework, you need to load the data. 
     You either do what it says at
 
     **either**
