@@ -1,15 +1,23 @@
 
 ## GENERIC INSTALLATION OVERVIEW
 
+### project overview
+
 1. Top of repository:
 
-    https://github.com/e-gun
+    * https://github.com/e-gun
+    
+    **mirror:**
+    * https://gitlab.com/e-gun/
 
 1. Description + Pictures of what you get/what `Hipparchia` can do: (scroll all the way down through the page…)
 
 	https://github.com/e-gun/HipparchiaServer
 
-1.  To actaully get started, first pick your OS:
+---
+### installation summary
+
+1.  To get started, first pick your OS:
 
 	* https://github.com/e-gun/HipparchiaMacOS
 	* https://github.com/e-gun/HipparchiaWindows
@@ -44,7 +52,6 @@
     Otherwise you need to build the databases yourself via `HipparchiaBuilder`.
     You put the data in the right place and then run `makecorpora.py`. 
 
-
 1. Then you will have a working installation. Now it is time to use `HipparchiaServer`. You can `run.py` whenever you want. 
     Mac people even have a handy `launch_hipparchia.app` that can be clicked. 
     
@@ -53,6 +60,7 @@
     You can leave `HipparchiaServer` running forever, really: it only consumes an interesting 
     amount of computing resources when you execute queries. 
 
+---
 
 ## MacOS SPECIFIC INSTALLATION INFORMATION
 
