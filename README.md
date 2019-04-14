@@ -59,6 +59,11 @@
 
     You can leave `HipparchiaServer` running forever, really: it only consumes an interesting 
     amount of computing resources when you execute queries. 
+    
+    The default settings should work well out of the box. Edit the files in `~/hipparchia_venv/HipparchiaServer/server/settings`
+    if you want to change something. For example, `vectors` are off by default and someone who installs
+    the proper `python` packages will want to edit `semanticvectorsettings.py` and set `SEMANTICVECTORSENABLED = 'yes'` 
+    (and then check the list of vector search types to make sure everything desired has a `yes` next to it)
 
 ---
 
