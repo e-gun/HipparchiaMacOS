@@ -15,7 +15,6 @@ else
         VECTORS="n"
 fi
 
-HIPPHOME="$HOME/hipparchia_venv"
 # change $HOME? [problems on older systems]
 # printf "${WHITE}Where should Hipparchia live?${NC}\n"
 # read -p "Press RETURN to install in the default directory [$DEFAUTLTHIPPHOME] otherwise submit a directory PATH: " HIPPHOME
@@ -24,6 +23,7 @@ HIPPHOME="$HOME/hipparchia_venv"
 
 printf "${WHITE}Installing to '${YELLOW}${HIPPHOME}${NC}${WHITE}'${NC} \n"
 
+HIPPHOME="$HOME/hipparchia_venv"
 SERVERPATH="$HIPPHOME/HipparchiaServer"
 BUILDERPATH="$HIPPHOME/HipparchiaBuilder"
 LOADERPATH="$HIPPHOME/HipparchiaSQLoader"
@@ -33,6 +33,7 @@ DATAPATH="$HIPPHOME/HipparchiaData"
 THIRDPARTYPATH="$HIPPHOME/HipparchiaThirdPartySoftware"
 EXTRAFONTPATH="$HIPPHOME/HipparchiaExtraFonts"
 WINDOWSPATH="$HIPPHOME/HipparchiaWindows"
+LEXDATAPATH="$HIPPHOME/HipparchiaLexicalData"
 STATIC="$SERVERPATH/server/static"
 TTF="$STATIC/ttf"
 THEDB="hipparchiaDB"
@@ -65,7 +66,7 @@ GIT='/usr/local/bin/git'
 # ready the installation files and directories
 printf "${WHITE}preparing the installation files and directories${NC}\n"
 
-for dir in $HIPPHOME $SERVERPATH $BUILDERPATH $LOADERPATH $BSDPATH $DATAPATH $MACPATH $WINDOWSPATH $EXTRAFONTPATH $THIRDPARTYPATH
+for dir in $HIPPHOME $SERVERPATH $BUILDERPATH $LOADERPATH $BSDPATH $DATAPATH $MACPATH $WINDOWSPATH $EXTRAFONTPATH $THIRDPARTYPATH $LEXDATAPATH
 do
 	if [ ! -d $dir ]; then
 		/bin/mkdir $dir
@@ -87,6 +88,7 @@ cd $MACPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaMacOS.g
 cd $THIRDPARTYPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaThirdPartySoftware.git
 cd $EXTRAFONTPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaExtraFonts.git
 cd $WINDOWSPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaWindows.git
+cd $LEXDATAPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaLexicalData.git
 
 cp $MACPATH/macOS_selfupdate.sh $HIPPHOME/selfupdate.sh
 chmod 700 $HIPPHOME/selfupdate.sh
@@ -247,16 +249,10 @@ cp $STATIC/jquery-ui-1.12.1/images/*.png $STATIC/images/
 rm -rf $STATIC/jquery-ui-1.12.1/
 
 if [ ! -d "$DATAPATH/lexica" ]; then
-	printf "${WHITE}fetching the lexica${NC}\n"
-	mkdir $DATAPATH/lexica/
-	cd $DATAPATH/lexica/
-	GET="/usr/local/bin/wget"
-	$GET https://community.dur.ac.uk/p.j.heslin/Software/Diogenes/Download/diogenes-linux-3.2.0.tar.bz2
-	tar jxf diogenes-linux-3.2.0.tar.bz2
-	mv $DATAPATH/lexica/diogenes-3.2.0/diogenes/perl/Perseus_Data/*.* $DATAPATH/lexica/
-	rm -rf $DATAPATH/lexica/diogenes-3.2.0/
-	mv $DATAPATH/lexica/1999.04.0057.xml $DATAPATH/lexica/greek-lexicon_1999.04.0057.xml
-	mv $DATAPATH/lexica/1999.04.0059.xml $DATAPATH/lexica/latin-lexicon_1999.04.0059.xml
+  mkdir $DATAPATH/lexica/
+  cd $DATAPATH/lexica/
+  cp $LEXDATAPATH/*.gz $DATAPATH/lexica/
+  gunzip $DATAPATH/lexica/*.gz
 fi
 
 printf "\n\n${RED}CONGRATULATIONS: You have installed the Hipparchia framework${NC}\n[provided you did not see any show-stopping error messages above...]\n\n"
