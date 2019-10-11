@@ -95,10 +95,11 @@ chmod 700 $HIPPHOME/selfupdate.sh
 cp -rp $MACPATH/macos_launch_hipparchia_application.app $HIPPHOME/launch_hipparchia.app
 cp -rp $MACPATH/macos_dbload_hipparchia.app $LOADERPATH/load_hipparchia_data.app
 
-if [ ! -f  '/usr/local/bin/python3' ]; then
+# catalina comes with python3
+if [ ! -f  '/usr/local/bin/python3' ] && [ ! -f '/usr/bin/python3' ]; then
 	$BREW install python3
 else
-	echo "`/usr/local/bin/python -V` installed; will not ask brew to install python"
+	echo "python3 already installed; will not ask brew to install python"
 fi
 
 if [ ! -f  '/usr/local/bin/psql' ]; then
