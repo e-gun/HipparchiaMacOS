@@ -102,6 +102,14 @@ else
 	echo "python3 already installed; will not ask brew to install python"
 fi
 
+if [ -f '/usr/bin/python3' ]; then
+	PYTHON='/usr/bin/python3'
+fi
+
+if [ -f '/usr/local/bin/python3' ]; then
+	PYTHON='/usr/local/bin/python3'
+fi
+
 if [ ! -f  '/usr/local/bin/psql' ]; then
 	$BREW install postgresql
 	$BREW services start postgresql
@@ -122,15 +130,13 @@ fi
 
 # prepare the python virtual environment
 printf "${WHITE}preparing the python virtual environment${NC}\n"
-/usr/local/bin/python3 -m venv $HIPPHOME
+$PYTHON -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
 $HIPPHOME/bin/pip3 install flask psycopg2-binary websockets
 # websockets 5.0.1 does not support python3.7, but master repo does...
 # $HIPPHOME/bin/pip3 install https://github.com/aaugustin/websockets/archive/master.zip
 if [ "$VECTORS" == "y" ]; then
-	$HIPPHOME/bin/pip3 install cython scipy numpy gensim pyLDAvis matplotlib networkx
-	# sklearn is also broken with python3.7 unless you go to the master repo
-	$HIPPHOME/bin/pip3 install https://github.com/scikit-learn/scikit-learn/archive/master.zip
+	$HIPPHOME/bin/pip3 install cython scipy numpy gensim pyLDAvis matplotlib networkx scikit-learn
 fi
 if [[ ${OPTION} == 'devel' ]]; then
 	$HIPPHOME/bin/pip3 install redis
