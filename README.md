@@ -69,6 +69,16 @@
 
 ## MacOS SPECIFIC INSTALLATION INFORMATION
 
+###first check that xcode is installed
+
+`sudo xcode-select --install`
+
+you will either be told that it is already there or be shown how to install it
+
+---
+
+###then install the software framework
+
 These files should allow you to install an environment with all of the tools to support 
 HipparchiaBuilder and HipparchiaServer.
 
