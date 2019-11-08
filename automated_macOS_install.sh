@@ -238,7 +238,7 @@ rm $TTF/*zip
 
 # JS
 cd $STATIC/
-cp $THIRDPARTYPATH/minimal_installation/jquery-3.3.1.min.js $STATIC/jquery.min.js
+cp $THIRDPARTYPATH/minimal_installation/jquery-3.4.1.min.js $STATIC/jquery.min.js
 cp $THIRDPARTYPATH/minimal_installation/jquery-ui-1.12.1.zip $STATIC/
 cp $THIRDPARTYPATH/minimal_installation/js.cookie.js $STATIC/
 cp $THIRDPARTYPATH/vector_helpers/*.* $STATIC/
