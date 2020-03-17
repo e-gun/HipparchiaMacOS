@@ -132,7 +132,7 @@ fi
 printf "${WHITE}preparing the python virtual environment${NC}\n"
 $PYTHON -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
-$HIPPHOME/bin/pip3 install flask psycopg2-binary websockets
+$HIPPHOME/bin/pip3 install flask psycopg2-binary websockets flask_wtf flask_login
 # websockets 5.0.1 does not support python3.7, but master repo does...
 # $HIPPHOME/bin/pip3 install https://github.com/aaugustin/websockets/archive/master.zip
 if [ "$VECTORS" == "y" ]; then
@@ -170,11 +170,13 @@ SSL="/usr/bin/openssl"
 WRPASS=`${SSL} rand -base64 12`
 RDPASS=`${SSL} rand -base64 12`
 SKRKEY=`${SSL} rand -base64 24`
+RUPASS=`${SSL} rand -base64 12`
 
 # you might have regex control chars in there if you are not lucky: 'VvIUkQ9CerGTo/sx5vneHeo+PCKpx7V5'
 WRPASS=`echo ${WRPASS//[^[:word:]]/}`
 RDPASS=`echo ${RDPASS//[^[:word:]]/}`
 SKRKEY=`echo ${SKRKEY//[^[:word:]]/}`
+RUPASS=`echo ${SKRKEY//[^[:word:]]/}`
 
 printf "\n\n${WHITE}setting up your passwords in the configuration files${NC}\n"
 
@@ -200,6 +202,7 @@ if [ ! -d "$SERVERPATH/settings/" ]; then
 		sed -i "" "s/WRITEUSER = 'consider_re-using_HipparchiaBuilder_user'/WRITEUSER = 'hippa_wr'/" $CONFIGFILE
 		sed -i "" "s/DBWRITEPASS = 'consider_re-using_HipparchiaBuilder_pass'/DBWRITEPASS = '$WRPASS'/" $CONFIGFILE
 	fi
+  sed -i "" "s/DEFAULTREMOTEPASS = 'yourremoteuserpassheretrytomakeitstrongplease'/DEFAULTREMOTEPASS = '$RUPASS'/" $CONFIGFILE
 	# note: this only works if pg_hba.conf has 'trust' in localhost for `whoami`
 	/usr/local/bin/psql -d $THEDB --command="ALTER ROLE hippa_rd WITH PASSWORD '$RDPASS';"
 else
