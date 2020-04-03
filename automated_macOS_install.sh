@@ -176,7 +176,7 @@ RUPASS=`${SSL} rand -base64 12`
 WRPASS=`echo ${WRPASS//[^[:word:]]/}`
 RDPASS=`echo ${RDPASS//[^[:word:]]/}`
 SKRKEY=`echo ${SKRKEY//[^[:word:]]/}`
-RUPASS=`echo ${SKRKEY//[^[:word:]]/}`
+RUPASS=`echo ${RUPASS//[^[:word:]]/}`
 
 printf "\n\n${WHITE}setting up your passwords in the configuration files${NC}\n"
 
