@@ -136,7 +136,7 @@ $HIPPHOME/bin/pip3 install flask psycopg2-binary websockets flask_wtf flask_logi
 # websockets 5.0.1 does not support python3.7, but master repo does...
 # $HIPPHOME/bin/pip3 install https://github.com/aaugustin/websockets/archive/master.zip
 if [ "$VECTORS" == "y" ]; then
-	$HIPPHOME/bin/pip3 install cython scipy numpy gensim pyLDAvis matplotlib networkx scikit-learn
+	$HIPPHOME/bin/pip3 install cython scipy numpy gensim pyLDAvis matplotlib networkx scikit-learn umap-learn
 fi
 if [[ ${OPTION} == 'devel' ]]; then
 	$HIPPHOME/bin/pip3 install redis
