@@ -27,7 +27,7 @@ HIPPHOME="$HOME/hipparchia_venv"
 SERVERPATH="$HIPPHOME/HipparchiaServer"
 BUILDERPATH="$HIPPHOME/HipparchiaBuilder"
 LOADERPATH="$HIPPHOME/HipparchiaSQLoader"
-BSDPATH="$HIPPHOME/HipparchiaBSD"
+NIXPATH="$HIPPHOME/HipparchiaNIX"
 MACPATH="$HIPPHOME/HipparchiaMacOS"
 DATAPATH="$HIPPHOME/HipparchiaData"
 THIRDPARTYPATH="$HIPPHOME/HipparchiaThirdPartySoftware"
@@ -66,7 +66,7 @@ GIT='/usr/local/bin/git'
 # ready the installation files and directories
 printf "${WHITE}preparing the installation files and directories${NC}\n"
 
-for dir in $HIPPHOME $SERVERPATH $BUILDERPATH $LOADERPATH $BSDPATH $DATAPATH $MACPATH $WINDOWSPATH $EXTRAFONTPATH $THIRDPARTYPATH $LEXDATAPATH
+for dir in $HIPPHOME $SERVERPATH $BUILDERPATH $LOADERPATH $NIXPATH $DATAPATH $MACPATH $WINDOWSPATH $EXTRAFONTPATH $THIRDPARTYPATH $LEXDATAPATH
 do
 	if [ ! -d $dir ]; then
 		/bin/mkdir $dir
@@ -83,7 +83,7 @@ fi
 
 cd $BUILDERPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaBuilder.git
 cd $LOADERPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaSQLoader.git
-cd $BSDPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaBSD.git
+cd $NIXPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaNIX.git
 cd $MACPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaMacOS.git
 cd $THIRDPARTYPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaThirdPartySoftware.git
 cd $EXTRAFONTPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaExtraFonts.git

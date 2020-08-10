@@ -21,7 +21,7 @@
 
 	* https://github.com/e-gun/HipparchiaMacOS
 	* https://github.com/e-gun/HipparchiaWindows
-	* https://github.com/e-gun/HipparchiaBSD
+	* https://github.com/e-gun/HipparchiaNIX
 
 1. Then you do what your OS install instructions say: 
 
