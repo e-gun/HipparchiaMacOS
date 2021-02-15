@@ -103,7 +103,7 @@ cp -rp $MACPATH/macos_dbload_hipparchia.app $LOADERPATH/load_hipparchia_data.app
 #	echo "python3 already installed; will not ask brew to install python"
 #fi
 
-# don't love this, but Big Sur's python was a problem
+# don't love hard-coding a version, but Big Sur's python was a problem
 $BREW install python@3.9
 
 if [ -f '/usr/bin/python3' ]; then
@@ -137,11 +137,10 @@ printf "${WHITE}preparing the python virtual environment${NC}\n"
 $PYTHON -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
 $HIPPHOME/bin/pip3 install flask psycopg2-binary websockets flask_wtf flask_login rich
-# websockets 5.0.1 does not support python3.7, but master repo does...
-# $HIPPHOME/bin/pip3 install https://github.com/aaugustin/websockets/archive/master.zip
+
 if [ "$VECTORS" == "y" ]; then
 	$HIPPHOME/bin/pip3 install cython scipy numpy gensim pyLDAvis matplotlib networkx scikit-learn
-	# umap-learn broken with python 3.9 (at the moment...)
+	# umap-learn broken with python 3.9 (at the moment...) [because llvmlite installation will die]
 	# putting this last so that you at least get the ones above properly installed
 	$HIPPHOME/bin/pip3 umap-learn
 fi
