@@ -46,7 +46,8 @@ then
 	echo "brew found; no need to install it"
 else
 	echo "brew not found; installing"
-	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	# /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
 if [ ! -f  '/usr/local/bin/git' ]; then
@@ -96,11 +97,14 @@ cp -rp $MACPATH/macos_launch_hipparchia_application.app $HIPPHOME/launch_hipparc
 cp -rp $MACPATH/macos_dbload_hipparchia.app $LOADERPATH/load_hipparchia_data.app
 
 # catalina comes with python3
-if [ ! -f  '/usr/local/bin/python3' ] && [ ! -f '/usr/bin/python3' ]; then
-	$BREW install python3
-else
-	echo "python3 already installed; will not ask brew to install python"
-fi
+#if [ ! -f  '/usr/local/bin/python3' ] && [ ! -f '/usr/bin/python3' ]; then
+#	$BREW install python3
+#else
+#	echo "python3 already installed; will not ask brew to install python"
+#fi
+
+# don't love this, but Big Sur's python was a problem
+$BREW install python@3.9
 
 if [ -f '/usr/bin/python3' ]; then
 	PYTHON='/usr/bin/python3'
@@ -132,11 +136,14 @@ fi
 printf "${WHITE}preparing the python virtual environment${NC}\n"
 $PYTHON -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
-$HIPPHOME/bin/pip3 install flask psycopg2-binary websockets flask_wtf flask_login
+$HIPPHOME/bin/pip3 install flask psycopg2-binary websockets flask_wtf flask_login rich
 # websockets 5.0.1 does not support python3.7, but master repo does...
 # $HIPPHOME/bin/pip3 install https://github.com/aaugustin/websockets/archive/master.zip
 if [ "$VECTORS" == "y" ]; then
-	$HIPPHOME/bin/pip3 install cython scipy numpy gensim pyLDAvis matplotlib networkx scikit-learn umap-learn
+	$HIPPHOME/bin/pip3 install cython scipy numpy gensim pyLDAvis matplotlib networkx scikit-learn
+	# umap-learn broken with python 3.9 (at the moment...)
+	# putting this last so that you at least get the ones above properly installed
+	$HIPPHOME/bin/pip3 umap-learn
 fi
 if [[ ${OPTION} == 'devel' ]]; then
 	$HIPPHOME/bin/pip3 install redis
@@ -241,7 +248,7 @@ rm $TTF/*zip
 
 # JS
 cd $STATIC/
-cp $THIRDPARTYPATH/minimal_installation/jquery-3.4.1.min.js $STATIC/jquery.min.js
+cp $THIRDPARTYPATH/minimal_installation/jquery-3.5.1.min.js $STATIC/jquery.min.js
 cp $THIRDPARTYPATH/minimal_installation/jquery-ui-1.12.1.zip $STATIC/
 cp $THIRDPARTYPATH/minimal_installation/js.cookie.js $STATIC/
 cp $THIRDPARTYPATH/vector_helpers/*.* $STATIC/
