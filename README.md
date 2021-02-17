@@ -75,6 +75,18 @@
 
 you will either be told that it is already there or be shown how to install it
 
+--- 
+
+### (maybe) install homebrew
+
+`automated_macOS_install.sh` will attempt to install `homebrew` if it is not 
+found. But sometimes the interactive bit of that installation can cause problems
+with the rest of the script. So you can just do the installation of `homebrew` first to be safe:
+
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
 ---
 
 ### then install the software framework
@@ -84,8 +96,9 @@ HipparchiaBuilder and HipparchiaServer.
 
 The macOS version is semi-straightforward.
 
-This script is verified to work on clean installations of macOS 10.12-14. 
-10.10-11 can install Hipparchia, but things can be slow. 
+This script is supposed to work on clean installations of macOS 10.12-14 
+and macOS 11 (Big Sur). 
+MacOS 10.10-11 can install Hipparchia, but things can be slow. 
 The glitches with old systems have (maybe) been removed. 
 Testing those system profiles is not a priority...
 
@@ -125,3 +138,14 @@ curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_ma
 [maximum: more fonts + vectors]
 curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_install.sh | /bin/bash -s standard vectors
 ```
+
+---
+
+### Troubleshooting
+
+If the installation takes about one second to complete, then something went wrong. Scroll back and figure out what happened.
+The most likely issue is a lack of developer tools and/or `homebrew` not installing right. Do that part
+by hand (again(?)). Also delete the `hipparchia_venv` that was likely created. You do not want bogus passwords 
+to be floating around in there. Then rerun the autoinstall script.
+Keep checking the console output for errors. If it comes to it you can paste the commands one by one until you find
+the one that dies. Then you can fix permssions, paths, or whatever so as to push on...
