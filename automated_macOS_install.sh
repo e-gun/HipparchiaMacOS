@@ -10,9 +10,9 @@ NC='\033[0m'
 [[ 'standard minimal devel' =~ (^|[[:space:]])"$1"($|[[:space:]]) ]] && OPTION=$1 || OPTION='standard'
 
 if [[ $2 == 'vectors' ]]; then
-        VECTORS="y"
+  VECTORS="y"
 else
-        VECTORS="n"
+  VECTORS="n"
 fi
 
 # change $HOME? [problems on older systems]
@@ -41,19 +41,18 @@ THEDB="hipparchiaDB"
 # install brew
 BREW='/usr/local/bin/brew'
 
-if [ -f "$BREW" ]
-then
-	echo "brew found; no need to install it"
+if [ -f "$BREW" ]; then
+  echo "brew found; no need to install it"
 else
-	echo "brew not found; installing"
-	# /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  echo "brew not found; installing"
+  # /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
-if [ ! -f  '/usr/local/bin/git' ]; then
-	$BREW install git
+if [ ! -f '/usr/local/bin/git' ]; then
+  $BREW install git
 else
-	echo "`/usr/local/bin/git --version` installed; will not ask brew to install git"
+  echo "$(/usr/local/bin/git --version) installed; will not ask brew to install git"
 fi
 
 GIT='/usr/local/bin/git'
@@ -67,19 +66,18 @@ GIT='/usr/local/bin/git'
 # ready the installation files and directories
 printf "${WHITE}preparing the installation files and directories${NC}\n"
 
-for dir in $HIPPHOME $SERVERPATH $BUILDERPATH $LOADERPATH $NIXPATH $DATAPATH $MACPATH $WINDOWSPATH $EXTRAFONTPATH $THIRDPARTYPATH $LEXDATAPATH
-do
-	if [ ! -d $dir ]; then
-		/bin/mkdir $dir
-	else
-		echo "$dir already exists; no need to create it"
-	fi
+for dir in $HIPPHOME $SERVERPATH $BUILDERPATH $LOADERPATH $NIXPATH $DATAPATH $MACPATH $WINDOWSPATH $EXTRAFONTPATH $THIRDPARTYPATH $LEXDATAPATH; do
+  if [ ! -d $dir ]; then
+    /bin/mkdir $dir
+  else
+    echo "$dir already exists; no need to create it"
+  fi
 done
 
 if [[ ${OPTION} == 'devel' ]]; then
-	cd $SERVERPATH && $GIT init && $GIT clone -b devel https://github.com/e-gun/HipparchiaServer.git
+  cd $SERVERPATH && $GIT init && $GIT clone -b devel https://github.com/e-gun/HipparchiaServer.git
 else
-	cd $SERVERPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaServer.git
+  cd $SERVERPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaServer.git
 fi
 
 cd $BUILDERPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaBuilder.git
@@ -107,29 +105,29 @@ cp -rp $MACPATH/macos_dbload_hipparchia.app $LOADERPATH/load_hipparchia_data.app
 $BREW install python@3.9
 
 if [ -f '/usr/bin/python3' ]; then
-	PYTHON='/usr/bin/python3'
+  PYTHON='/usr/bin/python3'
 fi
 
 if [ -f '/usr/local/bin/python3' ]; then
-	PYTHON='/usr/local/bin/python3'
+  PYTHON='/usr/local/bin/python3'
 fi
 
-if [ ! -f  '/usr/local/bin/psql' ]; then
-	$BREW install postgresql
-	$BREW services start postgresql
+if [ ! -f '/usr/local/bin/psql' ]; then
+  $BREW install postgresql
+  $BREW services start postgresql
 else
-	echo "`/usr/local/bin/psql -V` installed; will not ask brew to install psql"
+  echo "$(/usr/local/bin/psql -V) installed; will not ask brew to install psql"
 fi
 
-if [ ! -f  '/usr/local/bin/wget' ]; then
-	$BREW install wget
+if [ ! -f '/usr/local/bin/wget' ]; then
+  $BREW install wget
 else
-	echo "wget already installed; will not ask brew to install wget"
+  echo "wget already installed; will not ask brew to install wget"
 fi
 
 if [[ ${OPTION} == 'devel' ]]; then
-	$BREW install redis
-	$BREW services start redis
+  $BREW install redis
+  $BREW services start redis
 fi
 
 # prepare the python virtual environment
@@ -139,13 +137,13 @@ source $HIPPHOME/bin/activate
 $HIPPHOME/bin/pip3 install flask psycopg2-binary websockets flask_wtf flask_login rich
 
 if [ "$VECTORS" == "y" ]; then
-	$HIPPHOME/bin/pip3 install cython scipy numpy gensim pyLDAvis matplotlib networkx scikit-learn
-	# umap-learn broken with python 3.9 (at the moment...) [because llvmlite installation will die]
-	# putting this last so that you at least get the ones above properly installed
-	$HIPPHOME/bin/pip3 umap-learn
+  $HIPPHOME/bin/pip3 install cython scipy numpy gensim pyLDAvis matplotlib networkx scikit-learn
+  # umap-learn broken with python 3.9 (at the moment...) [because llvmlite installation will die]
+  # putting this last so that you at least get the ones above properly installed
+  $HIPPHOME/bin/pip3 install umap-learn
 fi
 if [[ ${OPTION} == 'devel' ]]; then
-	$HIPPHOME/bin/pip3 install redis
+  $HIPPHOME/bin/pip3 install redis
 fi
 
 # build the db framework
@@ -159,61 +157,61 @@ fi
 printf "${WHITE}hardening postgresql${NC}\n"
 HBACONF='/usr/local/var/postgres/pg_hba.conf'
 
-sed -i "" "s/local   all             all                                     trust/local   all   `whoami`   trust/" $HBACONF
-sed -i "" "s/host    all             all             127.0.0.1\/32            trust/host   all   `whoami`   127.0.0.1\/32   trust/" $HBACONF
+sed -i "" "s/local   all             all                                     trust/local   all   $(whoami)   trust/" $HBACONF
+sed -i "" "s/host    all             all             127.0.0.1\/32            trust/host   all   $(whoami)   127.0.0.1\/32   trust/" $HBACONF
 
 if grep hipparchiaDB $HBACONF; then
-	echo "found hipparchia rules in pg_hba.conf; leaving it untouched"
+  echo "found hipparchia rules in pg_hba.conf; leaving it untouched"
 else
-	echo "local   $THEDB   hippa_rd,hippa_wr   password" >>  $HBACONF
-	echo "host   $THEDB   hippa_rd,hippa_wr   127.0.0.1/32   password" >>  $HBACONF
+  echo "local   $THEDB   hippa_rd,hippa_wr   password" >>$HBACONF
+  echo "host   $THEDB   hippa_rd,hippa_wr   127.0.0.1/32   password" >>$HBACONF
 fi
 
 # set up some random passwords
 
 SSL="/usr/bin/openssl"
 
-WRPASS=`${SSL} rand -base64 12`
-RDPASS=`${SSL} rand -base64 12`
-SKRKEY=`${SSL} rand -base64 24`
-RUPASS=`${SSL} rand -base64 12`
+WRPASS=$(${SSL} rand -base64 12)
+RDPASS=$(${SSL} rand -base64 12)
+SKRKEY=$(${SSL} rand -base64 24)
+RUPASS=$(${SSL} rand -base64 12)
 
 # you might have regex control chars in there if you are not lucky: 'VvIUkQ9CerGTo/sx5vneHeo+PCKpx7V5'
-WRPASS=`echo ${WRPASS//[^[:word:]]/}`
-RDPASS=`echo ${RDPASS//[^[:word:]]/}`
-SKRKEY=`echo ${SKRKEY//[^[:word:]]/}`
-RUPASS=`echo ${RUPASS//[^[:word:]]/}`
+WRPASS=$(echo ${WRPASS//[^[:word:]]/})
+RDPASS=$(echo ${RDPASS//[^[:word:]]/})
+SKRKEY=$(echo ${SKRKEY//[^[:word:]]/})
+RUPASS=$(echo ${RUPASS//[^[:word:]]/})
 
 printf "\n\n${WHITE}setting up your passwords in the configuration files${NC}\n"
 
 if [ ! -f "$BUILDERPATH/config.ini" ]; then
-	sed "s/DBPASS = >>yourpasshere<</DBPASS = $WRPASS/" $BUILDERPATH/sample_config.ini > $BUILDERPATH/config.ini
-	# note: this only works if pg_hba.conf has 'trust' in localhost for `whoami`
-	/usr/local/bin/psql -d $THEDB --command="ALTER ROLE hippa_wr WITH PASSWORD '$WRPASS';"
+  sed "s/DBPASS = >>yourpasshere<</DBPASS = $WRPASS/" $BUILDERPATH/sample_config.ini >$BUILDERPATH/config.ini
+  # note: this only works if pg_hba.conf has 'trust' in localhost for `whoami`
+  /usr/local/bin/psql -d $THEDB --command="ALTER ROLE hippa_wr WITH PASSWORD '$WRPASS';"
 else
-	echo "oops - found old config.ini: will not change the password for hippa_wr"
-	echo "nb: your OLD password is still there; you will need to change it to your NEW one ($WRPASS)"
+  echo "oops - found old config.ini: will not change the password for hippa_wr"
+  echo "nb: your OLD password is still there; you will need to change it to your NEW one ($WRPASS)"
 fi
 
 if [ ! -f "$LOADERPATH/config.ini" ]; then
-	sed "s/DBPASS = yourpasshere/DBPASS = $WRPASS/" $LOADERPATH/sample_config.ini > $LOADERPATH/config.ini
+  sed "s/DBPASS = yourpasshere/DBPASS = $WRPASS/" $LOADERPATH/sample_config.ini >$LOADERPATH/config.ini
 fi
 
 if [ ! -d "$SERVERPATH/settings/" ]; then
-	cp -rp $SERVERPATH/server/sample_settings $SERVERPATH/server/settings
-	CONFIGFILE="$SERVERPATH/server/settings/securitysettings.py"
-	sed -i "" "s/DBPASS = 'yourpassheretrytomakeitstrongplease'/DBPASS = '$RDPASS'/" $CONFIGFILE
-	sed -i "" "s/SECRET_KEY = 'yourkeyhereitshouldbelongandlooklikecryptographicgobbledygook'/SECRET_KEY = '$SKRKEY'/" $CONFIGFILE
-	if [ "$VECTORS" == "y" ]; then
-		sed -i "" "s/WRITEUSER = 'consider_re-using_HipparchiaBuilder_user'/WRITEUSER = 'hippa_wr'/" $CONFIGFILE
-		sed -i "" "s/DBWRITEPASS = 'consider_re-using_HipparchiaBuilder_pass'/DBWRITEPASS = '$WRPASS'/" $CONFIGFILE
-	fi
+  cp -rp $SERVERPATH/server/sample_settings $SERVERPATH/server/settings
+  CONFIGFILE="$SERVERPATH/server/settings/securitysettings.py"
+  sed -i "" "s/DBPASS = 'yourpassheretrytomakeitstrongplease'/DBPASS = '$RDPASS'/" $CONFIGFILE
+  sed -i "" "s/SECRET_KEY = 'yourkeyhereitshouldbelongandlooklikecryptographicgobbledygook'/SECRET_KEY = '$SKRKEY'/" $CONFIGFILE
+  if [ "$VECTORS" == "y" ]; then
+    sed -i "" "s/WRITEUSER = 'consider_re-using_HipparchiaBuilder_user'/WRITEUSER = 'hippa_wr'/" $CONFIGFILE
+    sed -i "" "s/DBWRITEPASS = 'consider_re-using_HipparchiaBuilder_pass'/DBWRITEPASS = '$WRPASS'/" $CONFIGFILE
+  fi
   sed -i "" "s/DEFAULTREMOTEPASS = 'yourremoteuserpassheretrytomakeitstrongplease'/DEFAULTREMOTEPASS = '$RUPASS'/" $CONFIGFILE
-	# note: this only works if pg_hba.conf has 'trust' in localhost for `whoami`
-	/usr/local/bin/psql -d $THEDB --command="ALTER ROLE hippa_rd WITH PASSWORD '$RDPASS';"
+  # note: this only works if pg_hba.conf has 'trust' in localhost for `whoami`
+  /usr/local/bin/psql -d $THEDB --command="ALTER ROLE hippa_rd WITH PASSWORD '$RDPASS';"
 else
-	echo "oops - found old config.py: will not change the password for hippa_rd"
-	echo "nb: your OLD password is still there; you will need to change it to your NEW one ($RDPASS)"
+  echo "oops - found old config.py: will not change the password for hippa_rd"
+  echo "nb: your OLD password is still there; you will need to change it to your NEW one ($RDPASS)"
 fi
 
 $BREW services restart postgresql
@@ -225,22 +223,22 @@ printf "${WHITE}unpacking 3rd party support files${NC}\n"
 cd $TTF/
 cp $THIRDPARTYPATH/minimal_installation/Noto*.zip $TTF/
 if [[ ${OPTION} != 'minimal' ]]; then
-	cp $EXTRAFONTPATH/*.ttf $TTF/
-	cp $EXTRAFONTPATH/*.zip $TTF/
-	CONFIGFILE="$SERVERPATH/server/settings/htmlandcssstylesettings.py"
-	sed -i "" "s/ENBALEFONTPICKER = 'no'/ENBALEFONTPICKER = 'yes'/" $CONFIGFILE
+  cp $EXTRAFONTPATH/*.ttf $TTF/
+  cp $EXTRAFONTPATH/*.zip $TTF/
+  CONFIGFILE="$SERVERPATH/server/settings/htmlandcssstylesettings.py"
+  sed -i "" "s/ENBALEFONTPICKER = 'no'/ENBALEFONTPICKER = 'yes'/" $CONFIGFILE
 fi
 
-ZIPLIST=`ls -1 $TTF/*.zip`
+ZIPLIST=$(ls -1 $TTF/*.zip)
 for Z in $ZIPLIST; do unzip -o $Z; done
 
-DBLSUBDIRS=`ls -d -1 $TTF/*/*/*.ttf`
+DBLSUBDIRS=$(ls -d -1 $TTF/*/*/*.ttf)
 for D in $DBLSUBDIRS; do mv $D $TTF/; done
 
-INSUBDIRS=`ls -d -1 $TTF/*/*.ttf`
+INSUBDIRS=$(ls -d -1 $TTF/*/*.ttf)
 for F in $INSUBDIRS; do mv $F $TTF/; done
 
-SUBDIRS=`ls -d -1 $TTF/*/`
+SUBDIRS=$(ls -d -1 $TTF/*/)
 for S in $SUBDIRS; do rm -rf $S; done
 
 rm $TTF/*zip
@@ -252,7 +250,7 @@ cp $THIRDPARTYPATH/minimal_installation/jquery-ui-1.12.1.zip $STATIC/
 cp $THIRDPARTYPATH/minimal_installation/js.cookie.js $STATIC/
 cp $THIRDPARTYPATH/vector_helpers/*.* $STATIC/
 
-ZIPLIST=`ls -1 $STATIC/*.zip`
+ZIPLIST=$(ls -1 $STATIC/*.zip)
 for Z in $ZIPLIST; do unzip -o $Z; done
 rm $STATIC/*zip
 rm $STATIC/*md
@@ -283,9 +281,24 @@ printf "Not installed: ${RED}tensorflow${NC}\n"
 printf "You will need to add this manually later if you turn on the relevant option in ${WHITE}config.py${NC}\n\n"
 
 if [ "$VECTORS" != "y" ]; then
-	printf "Not installed: ${RED}cython scipy numpy gensim sklearn pyLDAvis matplotlib networkx${NC}\n"
-	printf "You will need to add them manually later if you turn on the relevant options in ${WHITE}config.py${NC}\n\n"
+  printf "Not installed: ${RED}cython scipy numpy gensim sklearn pyLDAvis matplotlib networkx${NC}\n"
+  printf "You will need to add them manually later if you turn on the relevant options in ${WHITE}config.py${NC}\n\n"
 fi
+
+cd $SERVERPATH/server
+rm -rf golangmodule
+wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/websockets/HipparchiaGoWebSocketApp-Darwin-latest.bz2
+wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/gograbber/cli_prebuilt_binaries/golanggrabber-cli-Darwin-latest.bz2
+wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/gograbber/module/golangmodule-Darwin-latest.tbz
+tar jxf ./golangmodule-Darwin-latest.tbz
+rm ./golangmodule-Darwin-latest.tbz
+mv ./golangmodule-Darwin-latest ./golangmodule
+bunzip2 golanggrabber-cli-Darwin-latest.bz2
+bunzip2 HipparchiaGoWebSocketApp-Darwin-latest.bz2
+mv golanggrabber-cli-Darwin-latest ./golangmodule/golanggrabber-cli
+mv HipparchiaGoWebSocketApp-Darwin-latest ./golangmodule/HipparchiaGoWebSocketApp
+chmod 755 ./golangmodule/golanggrabber-cli
+chmod 755 ./golangmodule/HipparchiaGoWebSocketApp
 
 printf "Additional packages are installed by executing the following command:\n\t${WHITE}${HIPPHOME}/bin/pip3 install packagename1 packagename2 packagename3 ...${NC}\n\n"
 
