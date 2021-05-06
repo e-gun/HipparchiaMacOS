@@ -288,7 +288,7 @@ fi
 cd $SERVERPATH/server
 rm -rf golangmodule
 wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/websockets/HipparchiaGoWebSocketApp-Darwin-latest.bz2
-wget https://github.com/e-gun/HipparchiaGoBinaries/blob/stable/gohelper/cli_prebuilt_binaries/HipparchiaGoDBHelper-Darwin-latest.bz2
+wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/gohelper/cli_prebuilt_binaries/HipparchiaGoDBHelper-Darwin-latest.bz2
 wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/gohelper/module/golangmodule-Darwin-latest.tbz
 tar jxf ./golangmodule-Darwin-latest.tbz
 rm ./golangmodule-Darwin-latest.tbz
