@@ -245,7 +245,7 @@ rm $TTF/*zip
 
 # JS
 cd $STATIC/
-cp $THIRDPARTYPATH/minimal_installation/jquery-3.5.1.min.js $STATIC/jquery.min.js
+cp $THIRDPARTYPATH/minimal_installation/jquery-3.6.0.min.js $STATIC/jquery.min.js
 cp $THIRDPARTYPATH/minimal_installation/jquery-ui-1.12.1.zip $STATIC/
 cp $THIRDPARTYPATH/minimal_installation/js.cookie.js $STATIC/
 cp $THIRDPARTYPATH/vector_helpers/*.* $STATIC/
@@ -288,14 +288,14 @@ fi
 cd $SERVERPATH/server
 rm -rf golangmodule
 wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/websockets/HipparchiaGoWebSocketApp-Darwin-latest.bz2
-wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/gograbber/cli_prebuilt_binaries/golanggrabber-cli-Darwin-latest.bz2
-wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/gograbber/module/golangmodule-Darwin-latest.tbz
+wget https://github.com/e-gun/HipparchiaGoBinaries/blob/stable/gohelper/cli_prebuilt_binaries/HipparchiaGoDBHelper-Darwin-latest.bz2
+wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/gohelper/module/golangmodule-Darwin-latest.tbz
 tar jxf ./golangmodule-Darwin-latest.tbz
 rm ./golangmodule-Darwin-latest.tbz
 mv ./golangmodule-Darwin-latest ./golangmodule
-bunzip2 golanggrabber-cli-Darwin-latest.bz2
+bunzip2 HipparchiaGoDBHelper-Darwin-latest.bz2
 bunzip2 HipparchiaGoWebSocketApp-Darwin-latest.bz2
-mv golanggrabber-cli-Darwin-latest ./golangmodule/golanggrabber-cli
+mv HipparchiaGoDBHelper-Darwin-latest ./golangmodule/HipparchiaGoDBHelper-Darwin-latest
 mv HipparchiaGoWebSocketApp-Darwin-latest ./golangmodule/HipparchiaGoWebSocketApp
 chmod 755 ./golangmodule/golanggrabber-cli
 chmod 755 ./golangmodule/HipparchiaGoWebSocketApp
