@@ -287,18 +287,14 @@ fi
 
 cd $SERVERPATH/server
 rm -rf golangmodule
-wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/websockets/HipparchiaGoWebSocketApp-Darwin-latest.bz2
 wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/gohelper/cli_prebuilt_binaries/HipparchiaGoDBHelper-Darwin-latest.bz2
 wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/gohelper/module/golangmodule-Darwin-latest.tbz
 tar jxf ./golangmodule-Darwin-latest.tbz
 rm ./golangmodule-Darwin-latest.tbz
 mv ./golangmodule-Darwin-latest ./golangmodule
 bunzip2 HipparchiaGoDBHelper-Darwin-latest.bz2
-bunzip2 HipparchiaGoWebSocketApp-Darwin-latest.bz2
-mv HipparchiaGoDBHelper-Darwin-latest ./golangmodule/HipparchiaGoDBHelper-Darwin-latest
-mv HipparchiaGoWebSocketApp-Darwin-latest ./golangmodule/HipparchiaGoWebSocketApp
-chmod 755 ./golangmodule/golanggrabber-cli
-chmod 755 ./golangmodule/HipparchiaGoWebSocketApp
+mv HipparchiaGoDBHelper-Darwin-latest ./golangmodule/HipparchiaGoDBHelper
+chmod 755 ./golangmodule/HipparchiaGoDBHelper
 
 printf "Additional packages are installed by executing the following command:\n\t${WHITE}${HIPPHOME}/bin/pip3 install packagename1 packagename2 packagename3 ...${NC}\n\n"
 
