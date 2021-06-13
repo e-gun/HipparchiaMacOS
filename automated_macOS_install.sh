@@ -25,6 +25,8 @@ printf "${WHITE}Installing to '${YELLOW}${HIPPHOME}${NC}${WHITE}'${NC} \n"
 
 HIPPHOME="$HOME/hipparchia_venv"
 SERVERPATH="$HIPPHOME/HipparchiaServer"
+HELPERBIN="$SERVERPATH/server/externalbinaries"
+HELPERMOD="$SERVERPATH/server/externalmodule"
 BUILDERPATH="$HIPPHOME/HipparchiaBuilder"
 LOADERPATH="$HIPPHOME/HipparchiaSQLoader"
 NIXPATH="$HIPPHOME/HipparchiaNIX"
@@ -119,13 +121,12 @@ else
   echo "$(/usr/local/bin/psql -V) installed; will not ask brew to install psql"
 fi
 
-if [ ! -f '/usr/local/bin/wget' ]; then
   $BREW install wget
 else
   echo "wget already installed; will not ask brew to install wget"
 fi
 
-if [[ ${OPTION} == 'devel' ]]; then
+if [ ! -f '/usr/local/bin/redis-server' ]; then
   $BREW install redis
   $BREW services start redis
 fi
@@ -134,16 +135,13 @@ fi
 printf "${WHITE}preparing the python virtual environment${NC}\n"
 $PYTHON -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
-$HIPPHOME/bin/pip3 install flask psycopg2-binary websockets flask_wtf flask_login rich
+$HIPPHOME/bin/pip3 install flask psycopg2-binary websockets flask_wtf flask_login rich redis
 
 if [ "$VECTORS" == "y" ]; then
   $HIPPHOME/bin/pip3 install cython scipy numpy gensim pyLDAvis matplotlib networkx scikit-learn
   # umap-learn broken with python 3.9 (at the moment...) [because llvmlite installation will die]
   # putting this last so that you at least get the ones above properly installed
   $HIPPHOME/bin/pip3 install umap-learn
-fi
-if [[ ${OPTION} == 'devel' ]]; then
-  $HIPPHOME/bin/pip3 install redis
 fi
 
 # build the db framework
@@ -286,15 +284,15 @@ if [ "$VECTORS" != "y" ]; then
 fi
 
 cd $SERVERPATH/server
-rm -rf golangmodule
-wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/gohelper/cli_prebuilt_binaries/HipparchiaGoDBHelper-Darwin-latest.bz2
-wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/gohelper/module/golangmodule-Darwin-latest.tbz
+rm -rf $HELPERMOD
+wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaGoDBHelper-Darwin-latest.bz2
+wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/module/golangmodule-Darwin-latest.tbz
 tar jxf ./golangmodule-Darwin-latest.tbz
 rm ./golangmodule-Darwin-latest.tbz
-mv ./golangmodule-Darwin-latest ./golangmodule
+mv ./golangmodule-Darwin-latest $HELPERMOD
 bunzip2 HipparchiaGoDBHelper-Darwin-latest.bz2
-mv HipparchiaGoDBHelper-Darwin-latest ./golangmodule/HipparchiaGoDBHelper
-chmod 755 ./golangmodule/HipparchiaGoDBHelper
+mv HipparchiaGoDBHelper-Darwin-latest $HELPERBIN/HipparchiaGoDBHelper
+chmod 755 $HELPERBIN/HipparchiaGoDBHelper
 
 printf "Additional packages are installed by executing the following command:\n\t${WHITE}${HIPPHOME}/bin/pip3 install packagename1 packagename2 packagename3 ...${NC}\n\n"
 
