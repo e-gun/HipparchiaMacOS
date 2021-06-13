@@ -68,28 +68,35 @@ GIT='/usr/local/bin/git'
 # ready the installation files and directories
 printf "${WHITE}preparing the installation files and directories${NC}\n"
 
-for dir in $HIPPHOME $SERVERPATH $BUILDERPATH $LOADERPATH $NIXPATH $DATAPATH $MACPATH $WINDOWSPATH $EXTRAFONTPATH $THIRDPARTYPATH $LEXDATAPATH; do
-  if [ ! -d $dir ]; then
-    /bin/mkdir $dir
-  else
-    echo "$dir already exists; no need to create it"
-  fi
-done
+#for dir in $HIPPHOME $SERVERPATH $BUILDERPATH $LOADERPATH $NIXPATH $DATAPATH $MACPATH $WINDOWSPATH $EXTRAFONTPATH $THIRDPARTYPATH $LEXDATAPATH; do
+#  if [ ! -d $dir ]; then
+#    /bin/mkdir $dir
+#  else
+#    echo "$dir already exists; no need to create it"
+#  fi
+#done
 
-if [[ ${OPTION} == 'devel' ]]; then
-  cd $SERVERPATH && $GIT init && $GIT clone -b devel https://github.com/e-gun/HipparchiaServer.git
-else
-  cd $SERVERPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaServer.git
+if [ ! -d $HIPPHOME ]; then
+    /bin/mkdir $HIPPHOME
 fi
 
-cd $BUILDERPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaBuilder.git
-cd $LOADERPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaSQLoader.git
-cd $NIXPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaNIX.git
-cd $MACPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaMacOS.git
-cd $THIRDPARTYPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaThirdPartySoftware.git
-cd $EXTRAFONTPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaExtraFonts.git
-cd $WINDOWSPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaWindows.git
-cd $LEXDATAPATH && $GIT init && $GIT pull https://github.com/e-gun/HipparchiaLexicalData.git
+cd $HIPPHOME
+$GIT clone -b devel https://github.com/e-gun/HipparchiaServer.git
+
+if [[ ${OPTION} == 'devel' ]]; then
+  cd $SERVERPATH
+  $GIT checkout devel
+  cd $HIPPHOME
+fi
+
+$GIT clone https://github.com/e-gun/HipparchiaBuilder
+$GIT clone https://github.com/e-gun/HipparchiaSQLoader
+$GIT clone https://github.com/e-gun/HipparchiaNIX
+$GIT clone https://github.com/e-gun/HipparchiaMacOS
+$GIT clone https://github.com/e-gun/HipparchiaThirdPartySoftware
+$GIT clone https://github.com/e-gun/HipparchiaExtraFonts
+$GIT clone https://github.com/e-gun/HipparchiaWindows
+$GIT clone https://github.com/e-gun/HipparchiaLexicalData
 
 cp $MACPATH/macOS_selfupdate.sh $HIPPHOME/selfupdate.sh
 chmod 700 $HIPPHOME/selfupdate.sh
