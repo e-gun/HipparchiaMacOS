@@ -27,7 +27,7 @@
 
 	e.g: open Terminal.app and paste
 	
-	`curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_install.sh | /bin/bash`
+	`curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/automated_macOS_install.sh | /bin/bash`
 
     After watching a lot of messages fly by you will have the full framework. Its probably good news 
     if you see the following: `CONGRATULATIONS: You have installed the Hipparchia framework`
@@ -84,7 +84,7 @@ found. But sometimes the interactive bit of that installation can cause problems
 with the rest of the script. So you can just do the installation of `homebrew` first to be safe:
 
 ```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/stable/install.sh)"
 ```
 
 ---
@@ -112,7 +112,7 @@ A sensible thing to do would be to download the script, then read it, then run i
 
 ```
 [download]
-curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_install.sh
+curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/automated_macOS_install.sh
 
 [read]
 more automated_macOS_install.sh
@@ -125,7 +125,7 @@ more automated_macOS_install.sh
 But the brazen individual can just open Terminal.app and paste the following into it:
 
 ```
-curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_install.sh | /bin/bash
+curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/automated_macOS_install.sh | /bin/bash
 ```
 
 The script takes arguments that set the style of installation (minimal, standard, devel) as well as the desire for vectors. 
@@ -133,10 +133,10 @@ The script takes arguments that set the style of installation (minimal, standard
 
 ```
 [bare minimum]
-curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_install.sh | /bin/bash -s minimal
+curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/automated_macOS_install.sh | /bin/bash -s minimal
 
 [maximum: more fonts + vectors]
-curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/master/automated_macOS_install.sh | /bin/bash -s standard vectors
+curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/automated_macOS_install.sh | /bin/bash -s standard vectors
 ```
 
 ---
