@@ -84,7 +84,7 @@ found. But sometimes the interactive bit of that installation can cause problems
 with the rest of the script. So you can just do the installation of `homebrew` first to be safe:
 
 ```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/stable/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ```
 
 ---

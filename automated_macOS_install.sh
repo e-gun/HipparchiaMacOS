@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# only need admin if you are installing homebrew?
+
+if (sudo -vn && sudo -ln) 2>&1 | grep 'required' >/dev/null; then
+  echo "run the following before executing this script (you will need admin rights and will be asked to supply a password):"
+  echo "	sudo echo"
+  echo
+  exit 0
+fi
+
+if (sudo -vn && sudo -ln) 2>&1 | grep 'Sorry' >/dev/null; then
+  echo "You do not have admin rights and will be unable to install the require packages."
+  exit 0
+fi
+
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
 WHITE='\033[1;37m'
@@ -111,7 +125,7 @@ cp -rp $MACPATH/macos_dbload_hipparchia.app $LOADERPATH/load_hipparchia_data.app
 #fi
 
 # don't love hard-coding a version, but Big Sur's python was a problem
-$BREW install python@3.9
+$BREW install python
 
 if [ -f '/usr/bin/python3' ]; then
   PYTHON='/usr/bin/python3'
@@ -143,7 +157,9 @@ fi
 printf "${WHITE}preparing the python virtual environment${NC}\n"
 $PYTHON -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
-$HIPPHOME/bin/pip3 install flask psycopg2-binary websockets flask_wtf flask_login rich redis
+$HIPPHOME/bin/pip3 install flask websockets flask_wtf flask_login rich redis
+# psycopg2 no longer does streamcopy properly (2.9.1)?
+$HIPPHOME/bin/pip3 install psycopg2==2.8.5
 
 if [ "$VECTORS" == "y" ]; then
   $HIPPHOME/bin/pip3 install cython scipy numpy gensim pyLDAvis matplotlib networkx scikit-learn
@@ -285,7 +301,7 @@ printf "Not installed: ${RED}tensorflow${NC}\n"
 printf "You will need to add this manually later if you turn on the relevant option in ${WHITE}config.py${NC}\n\n"
 
 if [ "$VECTORS" != "y" ]; then
-  printf "Not installed: ${RED}cython scipy numpy gensim sklearn pyLDAvis matplotlib networkx${NC}\n"
+  printf "Not installed: ${RED}cython scipy numpy gensim sklearn pyLDAvis matplotlib networkx umap-learn${NC}\n"
   printf "You will need to add them manually later if you turn on the relevant options in ${WHITE}config.py${NC}\n\n"
 fi
 
