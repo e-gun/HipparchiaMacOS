@@ -290,6 +290,27 @@ if [ ! -d "$DATAPATH/lexica" ]; then
   gunzip $DATAPATH/lexica/*.gz
 fi
 
+if [ "$VECTORS" != "y" ]; then
+  printf "Not installed: ${RED}cython scipy numpy gensim sklearn pyLDAvis matplotlib networkx umap-learn${NC}\n"
+  printf "You will need to add them manually later if you turn on the relevant options in ${WHITE}config.py${NC}\n\n"
+fi
+
+cd $SERVERPATH/server
+rm -rf $HELPERMOD
+wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaGoDBHelper-Darwin-m1-latest.bz2
+wget https://github.com/e-gun/HipparchiaRustBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaRustDBHelper-Darwin-m1-latest.bz2
+
+# m1 can't use the module (yet/ever)
+#wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/module/golangmodule-Darwin-latest.tbz
+#tar jxf ./golangmodule-Darwin-latest.tbz
+#rm ./golangmodule-Darwin-latest.tbz
+#mv ./golangmodule-Darwin-latest $HELPERMOD
+bunzip2 HipparchiaGoDBHelper-Darwin-m1-latest.bz2
+mv HipparchiaGoDBHelper-Darwin-* $HELPERBIN/HipparchiaGoDBHelper
+bunzip2 HipparchiaRustDBHelper-Darwin-m1-latest.bz2
+mv HipparchiaRustDBHelper-Darwin-* $HELPERBIN/HipparchiaRustDBHelper
+chmod 755 $HELPERBIN/Hipparchia*DBHelper
+
 printf "\n\n${RED}CONGRATULATIONS: You have installed the Hipparchia framework${NC}\n[provided you did not see any show-stopping error messages above...]\n\n"
 printf "[A1] If you are ${WHITE}building${NC}, make sure that your ${YELLOW}data files${NC} are all in place\nand that their locations reflect the values set in:\n\t${YELLOW}$BUILDERPATH/config.ini${NC}\n\n"
 printf "after that you can execute the following in the Terminal.app:\n"
@@ -300,22 +321,6 @@ printf "[B] Once the databases are loaded all you need to do is double-click ${W
 printf "\n"
 printf "Not installed: ${RED}tensorflow${NC}\n"
 printf "You will need to add this manually later if you turn on the relevant option in ${WHITE}config.py${NC}\n\n"
-
-if [ "$VECTORS" != "y" ]; then
-  printf "Not installed: ${RED}cython scipy numpy gensim sklearn pyLDAvis matplotlib networkx umap-learn${NC}\n"
-  printf "You will need to add them manually later if you turn on the relevant options in ${WHITE}config.py${NC}\n\n"
-fi
-
-cd $SERVERPATH/server
-rm -rf $HELPERMOD
-wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaGoDBHelper-Darwin-latest.bz2
-wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/module/golangmodule-Darwin-latest.tbz
-tar jxf ./golangmodule-Darwin-latest.tbz
-rm ./golangmodule-Darwin-latest.tbz
-mv ./golangmodule-Darwin-latest $HELPERMOD
-bunzip2 HipparchiaGoDBHelper-Darwin-latest.bz2
-mv HipparchiaGoDBHelper-Darwin-latest $HELPERBIN/HipparchiaGoDBHelper
-chmod 755 $HELPERBIN/HipparchiaGoDBHelper
 
 printf "Additional packages are installed by executing the following command:\n\t${WHITE}${HIPPHOME}/bin/pip3 install packagename1 packagename2 packagename3 ...${NC}\n\n"
 
