@@ -125,18 +125,29 @@ more automated_macOS_install.sh
 But the brazen individual can just open Terminal.app and paste the following into it:
 
 ```
-curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/automated_macOS_install.sh | /bin/bash
+curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/$INSTALLER | /bin/bash
 ```
+
+Note that that did not work. Instead you have to pause for a moment and name your architecture: `INTEL` or `M1`.
+
+```
+# set an ARCH; then you can past the 'curl...' stuff
+ARCH="INTEL"
+ARCH="M1"
+INSTALLER="automated_macOS_install-${ARCH}.sh"
+curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/$INSTALLER | /bin/bash
+```
+
 
 The script takes arguments that set the style of installation (minimal, standard, devel) as well as the desire for vectors. 
 'vectors' must be explicitly requested after a valid style: e.g., 'automated_macOS_install.sh standard vectors'
 
 ```
 [bare minimum]
-curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/automated_macOS_install.sh | /bin/bash -s minimal
+curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/$INSTALLER | /bin/bash -s minimal
 
 [maximum: more fonts + vectors]
-curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/automated_macOS_install.sh | /bin/bash -s standard vectors
+curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/$INSTALLER | /bin/bash -s standard vectors
 ```
 
 ---
