@@ -297,8 +297,12 @@ fi
 
 cd $SERVERPATH/server
 rm -rf $HELPERMOD
-wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaGoDBHelper-Darwin-m1-latest.bz2
-wget https://github.com/e-gun/HipparchiaRustBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaRustDBHelper-Darwin-m1-latest.bz2
+
+U=$(uname)
+A=$(arch)
+U="${U}-${A}"
+wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaGoDBHelper-${U}-latest.bz2
+wget https://github.com/e-gun/HipparchiaRustBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaRustDBHelper-${U}-latest.bz2
 
 # m1 can't use the module (yet/ever)
 #wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/module/golangmodule-Darwin-latest.tbz
