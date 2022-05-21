@@ -159,6 +159,9 @@ $PYTHON -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
 $HIPPHOME/bin/pip3 install flask websockets flask_wtf flask_login rich redis
 # psycopg2 no longer does streamcopy properly (2.9.1)?
+$BREW install openssl
+export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
 $HIPPHOME/bin/pip3 install psycopg2==2.8.5
 
 if [ "$VECTORS" == "y" ]; then
