@@ -310,7 +310,7 @@ fi
 
 cd $SERVERPATH/server
 rm -rf $HELPERMOD
-wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaGoDBHelper-Darwin-latest.bz2
+wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaGoDBHelper-Darwin-intel-latest.bz2
 wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/module/golangmodule-Darwin-latest.tbz
 tar jxf ./golangmodule-Darwin-latest.tbz
 rm ./golangmodule-Darwin-latest.tbz
