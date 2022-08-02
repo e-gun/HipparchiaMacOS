@@ -113,9 +113,9 @@ $GIT clone https://github.com/e-gun/HipparchiaSQLoader
 $GIT clone https://github.com/e-gun/HipparchiaNIX
 $GIT clone https://github.com/e-gun/HipparchiaMacOS
 $GIT clone https://github.com/e-gun/HipparchiaThirdPartySoftware
-$GIT clone https://github.com/e-gun/HipparchiaExtraFonts
+# $GIT clone https://github.com/e-gun/HipparchiaExtraFonts
 $GIT clone https://github.com/e-gun/HipparchiaWindows
-$GIT clone https://github.com/e-gun/HipparchiaLexicalData
+# $GIT clone https://github.com/e-gun/HipparchiaLexicalData
 
 cp $MACPATH/macOS_selfupdate.sh $HIPPHOME/selfupdate.sh
 chmod 700 $HIPPHOME/selfupdate.sh
@@ -243,12 +243,12 @@ printf "${WHITE}unpacking 3rd party support files${NC}\n"
 # FONTS
 cd $TTF/
 cp $THIRDPARTYPATH/minimal_installation/Noto*.zip $TTF/
-if [[ ${OPTION} != 'minimal' ]]; then
-  cp $EXTRAFONTPATH/*.ttf $TTF/
-  cp $EXTRAFONTPATH/*.zip $TTF/
-  CONFIGFILE="$SERVERPATH/server/settings/htmlandcssstylesettings.py"
-  sed -i "" "s/ENBALEFONTPICKER = 'no'/ENBALEFONTPICKER = 'yes'/" $CONFIGFILE
-fi
+#if [[ ${OPTION} != 'minimal' ]]; then
+#  cp $EXTRAFONTPATH/*.ttf $TTF/
+#  cp $EXTRAFONTPATH/*.zip $TTF/
+#  CONFIGFILE="$SERVERPATH/server/settings/htmlandcssstylesettings.py"
+#  sed -i "" "s/ENBALEFONTPICKER = 'no'/ENBALEFONTPICKER = 'yes'/" $CONFIGFILE
+#fi
 
 ZIPLIST=$(ls -1 $TTF/*.zip)
 for Z in $ZIPLIST; do unzip -o $Z; done
@@ -267,7 +267,7 @@ rm $TTF/*zip
 # JS
 cd $STATIC/
 cp $THIRDPARTYPATH/minimal_installation/jquery-3.6.0.min.js $STATIC/jquery.min.js
-cp $THIRDPARTYPATH/minimal_installation/jquery-ui-1.12.1.zip $STATIC/
+cp $THIRDPARTYPATH/minimal_installation/jquery-ui-*.zip $STATIC/
 cp $THIRDPARTYPATH/minimal_installation/js.cookie.js $STATIC/
 cp $THIRDPARTYPATH/vector_helpers/*.* $STATIC/
 
@@ -279,14 +279,14 @@ rm $STATIC/LICENSE
 rm $STATIC/d3.js
 mv $STATIC/d3.min.js $STATIC/jsd3.js
 mv $STATIC/ldavis.v1.0.0.js $STATIC/jsforldavis.js
-cp $STATIC/jquery-ui-1.12.1/j* $STATIC/
-cp $STATIC/jquery-ui-1.12.1/images/*.png $STATIC/images/
-rm -rf $STATIC/jquery-ui-1.12.1/
+cp $STATIC/jquery-ui-*/j* $STATIC/
+cp $STATIC/jquery-ui-*/images/*.png $STATIC/images/
+rm -rf $STATIC/jquery-ui-*/
 
 if [ ! -d "$DATAPATH/lexica" ]; then
   mkdir $DATAPATH/lexica/
   cd $DATAPATH/lexica/
-  cp $LEXDATAPATH/*.gz $DATAPATH/lexica/
+  wget "https://github.com/e-gun/HipparchiaLexicalData/raw/stable/logeion.lsj.xml.gz"
   gunzip $DATAPATH/lexica/*.gz
 fi
 
