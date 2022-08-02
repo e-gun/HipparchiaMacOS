@@ -241,8 +241,8 @@ $BREW services restart postgresql
 printf "${WHITE}unpacking 3rd party support files${NC}\n"
 
 # FONTS
-cd $TTF/
-cp $THIRDPARTYPATH/minimal_installation/Noto*.zip $TTF/
+# cd $TTF/
+# cp $THIRDPARTYPATH/minimal_installation/Noto*.zip $TTF/
 #if [[ ${OPTION} != 'minimal' ]]; then
 #  cp $EXTRAFONTPATH/*.ttf $TTF/
 #  cp $EXTRAFONTPATH/*.zip $TTF/
@@ -250,19 +250,24 @@ cp $THIRDPARTYPATH/minimal_installation/Noto*.zip $TTF/
 #  sed -i "" "s/ENBALEFONTPICKER = 'no'/ENBALEFONTPICKER = 'yes'/" $CONFIGFILE
 #fi
 
-ZIPLIST=$(ls -1 $TTF/*.zip)
-for Z in $ZIPLIST; do unzip -o $Z; done
+unzip -o $THIRDPARTYPATH/minimal_installation/NotoBaseFonts.zip -d $TTF/
+mv $TTF/NotoBaseFonts/*ttf $TTF/
+rm -rf $TTF/NotoBaseFonts/
+rm -rf $TTF/__MACOSX/
 
-DBLSUBDIRS=$(ls -d -1 $TTF/*/*/*.ttf)
-for D in $DBLSUBDIRS; do mv $D $TTF/; done
+#ZIPLIST=$(ls -1 $TTF/*.zip)
+#for Z in $ZIPLIST; do unzip -o $Z; done
 
-INSUBDIRS=$(ls -d -1 $TTF/*/*.ttf)
-for F in $INSUBDIRS; do mv $F $TTF/; done
+#DBLSUBDIRS=$(ls -d -1 $TTF/*/*/*.ttf)
+#for D in $DBLSUBDIRS; do mv $D $TTF/; done
+#
+#INSUBDIRS=$(ls -d -1 $TTF/*/*.ttf)
+#for F in $INSUBDIRS; do mv $F $TTF/; done
 
-SUBDIRS=$(ls -d -1 $TTF/*/)
-for S in $SUBDIRS; do rm -rf $S; done
+#SUBDIRS=$(ls -d -1 $TTF/*/)
+#for S in $SUBDIRS; do rm -rf $S; done
 
-rm $TTF/*zip
+# rm $TTF/*zip
 
 # JS
 cd $STATIC/
