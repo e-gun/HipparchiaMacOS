@@ -102,7 +102,7 @@ $GIT clone https://github.com/e-gun/HipparchiaMacOS
 $GIT clone https://github.com/e-gun/HipparchiaThirdPartySoftware
 # $GIT clone https://github.com/e-gun/HipparchiaExtraFonts
 # $GIT clone https://github.com/e-gun/HipparchiaWindows
-# $GIT clone https://github.com/e-gun/HipparchiaLexicalData
+$GIT clone --depth 1 https://github.com/e-gun/HipparchiaLexicalData
 
 cp $MACPATH/macOS_selfupdate.sh $HIPPHOME/selfupdate.sh
 chmod 700 $HIPPHOME/selfupdate.sh
