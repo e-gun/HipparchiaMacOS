@@ -316,7 +316,7 @@ bunzip2 HipparchiaGoDBHelper-${U}-latest.bz2
 mv HipparchiaGoDBHelper-${U}-* $SERVERPATH/server/externalbinaries/HipparchiaGoDBHelper
 # bunzip2 HipparchiaRustDBHelper-Darwin-m1-latest.bz2
 # mv HipparchiaRustDBHelper-Darwin-* $SERVERPATH/server/externalbinaries/HipparchiaRustDBHelper
-chmod 755 $HELPERBIN/Hipparchia*DBHelper
+chmod 755 $SERVERPATH/server/externalbinaries/Hipparchia*DBHelper
 
 printf "\n\n${RED}CONGRATULATIONS: You have installed the Hipparchia framework${NC}\n[provided you did not see any show-stopping error messages above...]\n\n"
 printf "[A1] If you are ${WHITE}building${NC}, make sure that your ${YELLOW}data files${NC} are all in place\nand that their locations reflect the values set in:\n\t${YELLOW}$BUILDERPATH/config.ini${NC}\n\n"

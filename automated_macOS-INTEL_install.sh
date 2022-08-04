@@ -316,7 +316,7 @@ wget https://github.com/e-gun/HipparchiaRustBinaries/raw/stable/cli_prebuilt_bin
 
 bunzip2 HipparchiaGoDBHelper-${U}-latest.bz2
 mv HipparchiaGoDBHelper-${U}-* $SERVERPATH/server/externalbinaries/HipparchiaGoDBHelper
-chmod 755 $HELPERBIN/HipparchiaGoDBHelper
+chmod 755 $SERVERPATH/server/externalbinaries/HipparchiaGoDBHelper
 
 printf "Additional packages are installed by executing the following command:\n\t${WHITE}${HIPPHOME}/bin/pip3 install packagename1 packagename2 packagename3 ...${NC}\n\n"
 
