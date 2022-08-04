@@ -301,23 +301,21 @@ if [ "$VECTORS" != "y" ]; then
 fi
 
 cd $SERVERPATH/server
-rm -rf $HELPERMOD
-
 U=$(uname)
-A=$(arch)
+A=$(uname -p)
 U="${U}-${A}"
 wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaGoDBHelper-${U}-latest.bz2
-wget https://github.com/e-gun/HipparchiaRustBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaRustDBHelper-${U}-latest.bz2
+# wget https://github.com/e-gun/HipparchiaRustBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaRustDBHelper-${U}-latest.bz2
 
 # m1 can't use the module (yet/ever)
 #wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/module/golangmodule-Darwin-latest.tbz
 #tar jxf ./golangmodule-Darwin-latest.tbz
 #rm ./golangmodule-Darwin-latest.tbz
 #mv ./golangmodule-Darwin-latest $HELPERMOD
-bunzip2 HipparchiaGoDBHelper-Darwin-m1-latest.bz2
-mv HipparchiaGoDBHelper-Darwin-* $HELPERBIN/HipparchiaGoDBHelper
-bunzip2 HipparchiaRustDBHelper-Darwin-m1-latest.bz2
-mv HipparchiaRustDBHelper-Darwin-* $HELPERBIN/HipparchiaRustDBHelper
+bunzip2 HipparchiaGoDBHelper-${U}-latest.bz2
+mv HipparchiaGoDBHelper-${U}-* $SERVERPATH/server/externalbinaries/HipparchiaGoDBHelper
+# bunzip2 HipparchiaRustDBHelper-Darwin-m1-latest.bz2
+# mv HipparchiaRustDBHelper-Darwin-* $SERVERPATH/server/externalbinaries/HipparchiaRustDBHelper
 chmod 755 $HELPERBIN/Hipparchia*DBHelper
 
 printf "\n\n${RED}CONGRATULATIONS: You have installed the Hipparchia framework${NC}\n[provided you did not see any show-stopping error messages above...]\n\n"

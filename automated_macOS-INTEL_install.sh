@@ -306,15 +306,16 @@ if [ "$VECTORS" != "y" ]; then
   printf "You will need to add them manually later if you turn on the relevant options in ${WHITE}config.py${NC}\n\n"
 fi
 
+
 cd $SERVERPATH/server
-rm -rf $HELPERMOD
-wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaGoDBHelper-Darwin-intel-latest.bz2
-wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/module/golangmodule-Darwin-latest.tbz
-tar jxf ./golangmodule-Darwin-latest.tbz
-rm ./golangmodule-Darwin-latest.tbz
-mv ./golangmodule-Darwin-latest $HELPERMOD
-bunzip2 HipparchiaGoDBHelper-Darwin-latest.bz2
-mv HipparchiaGoDBHelper-Darwin-latest $HELPERBIN/HipparchiaGoDBHelper
+U=$(uname)
+A=$(uname -p)
+U="${U}-${A}"
+wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaGoDBHelper-${U}-latest.bz2
+wget https://github.com/e-gun/HipparchiaRustBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaRustDBHelper-${U}-latest.bz2
+
+bunzip2 HipparchiaGoDBHelper-${U}-latest.bz2
+mv HipparchiaGoDBHelper-${U}-* $SERVERPATH/server/externalbinaries/HipparchiaGoDBHelper
 chmod 755 $HELPERBIN/HipparchiaGoDBHelper
 
 printf "Additional packages are installed by executing the following command:\n\t${WHITE}${HIPPHOME}/bin/pip3 install packagename1 packagename2 packagename3 ...${NC}\n\n"
