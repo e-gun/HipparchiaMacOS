@@ -73,7 +73,7 @@ fi
 if [ ! -f '${BREWBIN}/git' ]; then
   $BREW install git
 else
-  echo "$(/usr/local/bin/git --version) installed; will not ask brew to install git"
+  echo "$(${BREWBIN}/git --version) installed; will not ask brew to install git"
 fi
 
 GIT="${BREWBIN}/git"
@@ -129,7 +129,7 @@ if [ ! -f '${BREWBIN}/psql' ]; then
   $BREW install postgresql
   $BREW services start postgresql
 else
-  echo "$(/usr/local/bin/psql -V) installed; will not ask brew to install psql"
+  echo "$(${BREWBIN}/psql -V) installed; will not ask brew to install psql"
 fi
 
 if [ ! -f '${BREWBIN}/wget' ]; then
@@ -210,7 +210,7 @@ printf "\n\n${WHITE}setting up your passwords in the configuration files${NC}\n"
 if [ ! -f "$BUILDERPATH/config.ini" ]; then
   sed "s/DBPASS = >>yourpasshere<</DBPASS = $WRPASS/" $BUILDERPATH/sample_config.ini >$BUILDERPATH/config.ini
   # note: this only works if pg_hba.conf has 'trust' in localhost for `whoami`
-  /usr/local/bin/psql -d $THEDB --command="ALTER ROLE hippa_wr WITH PASSWORD '$WRPASS';"
+  ${BREWBIN}/psql -d $THEDB --command="ALTER ROLE hippa_wr WITH PASSWORD '$WRPASS';"
 else
   echo "oops - found old config.ini: will not change the password for hippa_wr"
   echo "nb: your OLD password is still there; you will need to change it to your NEW one ($WRPASS)"
@@ -229,7 +229,7 @@ if [ ! -d "$SERVERPATH/settings/" ]; then
   sed -i "" "s/DBWRITEPASS = 'consider_re-using_HipparchiaBuilder_pass'/DBWRITEPASS = '$WRPASS'/" $CONFIGFILE
   sed -i "" "s/DEFAULTREMOTEPASS = 'yourremoteuserpassheretrytomakeitstrongplease'/DEFAULTREMOTEPASS = '$RUPASS'/" $CONFIGFILE
   # note: this only works if pg_hba.conf has 'trust' in localhost for `whoami`
-  /usr/local/bin/psql -d $THEDB --command="ALTER ROLE hippa_rd WITH PASSWORD '$RDPASS';"
+  ${BREWBIN}/psql -d $THEDB --command="ALTER ROLE hippa_rd WITH PASSWORD '$RDPASS';"
 else
   echo "oops - found old config.py: will not change the password for hippa_rd"
   echo "nb: your OLD password is still there; you will need to change it to your NEW one ($RDPASS)"
