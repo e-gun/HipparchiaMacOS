@@ -32,14 +32,6 @@ else
   VECTORS="n"
 fi
 
-# change $HOME? [problems on older systems]
-# printf "${WHITE}Where should Hipparchia live?${NC}\n"
-# read -p "Press RETURN to install in the default directory [$DEFAUTLTHIPPHOME] otherwise submit a directory PATH: " HIPPHOME
-# HIPPHOME=${HIPPHOME:-$DEFAUTLTHIPPHOME}
-# HIPPHOME=$DEFAUTLTHIPPHOME
-
-printf "${WHITE}Installing to '${YELLOW}${HIPPHOME}${NC}${WHITE}'${NC} \n"
-
 HIPPHOME="$HOME/hipparchia_venv"
 SERVERPATH="$HIPPHOME/HipparchiaServer"
 HELPERBIN="$SERVERPATH/server/externalbinaries"
@@ -57,6 +49,8 @@ STATIC="$SERVERPATH/server/static"
 TTF="$STATIC/ttf"
 THEDB="hipparchiaDB"
 
+printf "${WHITE}Installing to '${YELLOW}${HIPPHOME}${NC}${WHITE}'${NC} \n"
+
 # install brew
 BREWHOME="/opt/homebrew"
 BREWBIN="${BREWHOME}/bin"
@@ -70,30 +64,18 @@ else
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
-if [ ! -f '${BREWBIN}/git' ]; then
-  $BREW install git
-else
-  echo "$(${BREWBIN}/git --version) installed; will not ask brew to install git"
-fi
+# brew has to install all of these at once; then it will kill the script... why?!
+$BREW install git python postgresql wget redis openssl
+
 
 GIT="${BREWBIN}/git"
+PYTHON="${BREWBIN}/python3"
 
-# printf "testing for availability of ${YELLOW}command line tools${NC} tools"
-# # git is provided by command line tools...
-# $GIT --version > /dev/null
-# printf "if you do not already have them installed\n"
-# printf "allow the system to do the installation before you input any other information into this script\n"
+$BREW services start postgresql
+$BREW services start redis
 
 # ready the installation files and directories
 printf "${WHITE}preparing the installation files and directories${NC}\n"
-
-#for dir in $HIPPHOME $SERVERPATH $BUILDERPATH $LOADERPATH $NIXPATH $DATAPATH $MACPATH $WINDOWSPATH $EXTRAFONTPATH $THIRDPARTYPATH $LEXDATAPATH; do
-#  if [ ! -d $dir ]; then
-#    /bin/mkdir $dir
-#  else
-#    echo "$dir already exists; no need to create it"
-#  fi
-#done
 
 if [ ! -d $HIPPHOME ]; then
   /bin/mkdir $HIPPHOME
@@ -122,38 +104,15 @@ chmod 700 $HIPPHOME/selfupdate.sh
 cp -rp $MACPATH/macos_launch_hipparchia_application.app $HIPPHOME/launch_hipparchia.app
 cp -rp $MACPATH/macos_dbload_hipparchia.app $LOADERPATH/load_hipparchia_data.app
 
-$BREW install python
-PYTHON="${BREWBIN}/python3"
-
-if [ ! -f '${BREWBIN}/psql' ]; then
-  $BREW install postgresql
-  $BREW services start postgresql
-else
-  echo "$(${BREWBIN}/psql -V) installed; will not ask brew to install psql"
-fi
-
-if [ ! -f '${BREWBIN}/wget' ]; then
-  $BREW install wget
-else
-  echo "wget already installed; will not ask brew to install wget"
-fi
-
-if [ ! -f '${BREWBIN}/redis-server' ]; then
-  $BREW install redis
-  $BREW services start redis
-fi
-
 # prepare the python virtual environment
 printf "${WHITE}preparing the python virtual environment${NC}\n"
 $PYTHON -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
 
-
 $HIPPHOME/bin/pip3 install flask websockets flask_wtf flask_login rich redis
 
 # psycopg2 no longer does streamcopy properly (2.9.1)?
 # psycopg2 is a PITA; you have to build it, but it is not easy to build
-$BREW install openssl
 export LDFLAGS="-L/opt/homebrew/opt/openssl@1.1/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/openssl@1.1/include"
 $HIPPHOME/bin/pip3 install psycopg2==2.8.5
@@ -164,8 +123,8 @@ if [ "$VECTORS" == "y" ]; then
   # umap-learn broken with python 3.9 (at the moment...) [because llvmlite installation will die]
   # putting this last so that you at least get the ones above properly installed
   # [see https://github.com/cvxgrp/pymde/issues/49 and https://stackoverflow.com/questions/67567987/m1-mac-how-to-install-llvm]
-  arch -arm64 $BREW install llvm@11
-  LLVM_CONFIG="/opt/homebrew/Cellar/llvm@11/11.1.0_4/bin/llvm-config" arch -arm64 $HIPPHOME/bin/pip3 install llvmlite
+  # arch -arm64 $BREW install llvm@11
+  # LLVM_CONFIG="/opt/homebrew/Cellar/llvm@11/11.1.0_4/bin/llvm-config" arch -arm64 $HIPPHOME/bin/pip3 install llvmlite
   $HIPPHOME/bin/pip3 install umap-learn
 fi
 
@@ -241,33 +200,11 @@ $BREW services restart postgresql
 printf "${WHITE}unpacking 3rd party support files${NC}\n"
 
 # FONTS
-# cd $TTF/
-# cp $THIRDPARTYPATH/minimal_installation/Noto*.zip $TTF/
-#if [[ ${OPTION} != 'minimal' ]]; then
-#  cp $EXTRAFONTPATH/*.ttf $TTF/
-#  cp $EXTRAFONTPATH/*.zip $TTF/
-#  CONFIGFILE="$SERVERPATH/server/settings/htmlandcssstylesettings.py"
-#  sed -i "" "s/ENBALEFONTPICKER = 'no'/ENBALEFONTPICKER = 'yes'/" $CONFIGFILE
-#fi
 
 unzip -o $THIRDPARTYPATH/minimal_installation/NotoBaseFonts.zip -d $TTF/
 mv $TTF/NotoBaseFonts/*ttf $TTF/
 rm -rf $TTF/NotoBaseFonts/
 rm -rf $TTF/__MACOSX/
-
-#ZIPLIST=$(ls -1 $TTF/*.zip)
-#for Z in $ZIPLIST; do unzip -o $Z; done
-
-#DBLSUBDIRS=$(ls -d -1 $TTF/*/*/*.ttf)
-#for D in $DBLSUBDIRS; do mv $D $TTF/; done
-#
-#INSUBDIRS=$(ls -d -1 $TTF/*/*.ttf)
-#for F in $INSUBDIRS; do mv $F $TTF/; done
-
-#SUBDIRS=$(ls -d -1 $TTF/*/)
-#for S in $SUBDIRS; do rm -rf $S; done
-
-# rm $TTF/*zip
 
 # JS
 cd $STATIC/
@@ -289,9 +226,10 @@ cp $STATIC/jquery-ui-*/images/*.png $STATIC/images/
 rm -rf $STATIC/jquery-ui-*/
 
 if [ ! -d "$DATAPATH/lexica" ]; then
-  mkdir $DATAPATH/lexica/
+  mkdir -p $DATAPATH/lexica/
   cd $DATAPATH/lexica/
-  wget "https://github.com/e-gun/HipparchiaLexicalData/raw/stable/logeion.lsj.xml.gz"
+  cp $LEXDATAPATH/latin-lexicon_1999.04.0059.xml.gz $DATAPATH/lexica/
+  cp $LEXDATAPATH/logeion.lsj.xml.gz $DATAPATH/lexica/
   gunzip $DATAPATH/lexica/*.gz
 fi
 
