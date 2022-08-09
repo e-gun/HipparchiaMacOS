@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# bash-3.2$ ./automated_macOS-M1_install.sh standard vectors
+# bash-3.2$ ./automated_macOS_install-arm.sh standard vectors
 
 # only need admin if you are installing homebrew?
 # installing homebrew can timeout the sudo

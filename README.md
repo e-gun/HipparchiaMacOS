@@ -111,14 +111,15 @@ paradigm could be used to get you to delete the contents of your hard drive...
 A sensible thing to do would be to download the script, then read it, then run it.
 
 ```
+ARCH=$(uname -p)
 [download]
-curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/automated_macOS_install.sh
+curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/automated_macOS_install-${ARCH}.sh
 
 [read]
-more automated_macOS_install.sh
+more automated_macOS_install-${ARCH}.sh
 
 [execute]
-/bin/bash automated_macOS_install.sh
+/bin/bash automated_macOS_install-${ARCH}.sh
 
 ```
 
@@ -128,12 +129,11 @@ But the brazen individual can just open Terminal.app and paste the following int
 curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/$INSTALLER | /bin/bash
 ```
 
-Note that that did not work. Instead you have to pause for a moment and name your architecture: `INTEL` or `M1`.
+Note that that did not work. Instead you have to pause for a moment and name your architecture: (old) `i386` or (new) `arm`.
 
 ```
 # set an ARCH; then you can past the 'curl...' stuff
-ARCH="INTEL"
-ARCH="M1"
+ARCH=$(uname -p)
 INSTALLER="automated_macOS_install-${ARCH}.sh"
 curl https://raw.githubusercontent.com/e-gun/HipparchiaMacOS/stable/$INSTALLER | /bin/bash
 ```
