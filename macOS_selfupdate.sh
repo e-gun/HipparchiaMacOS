@@ -17,15 +17,19 @@ HIPPHOME="$HOME/hipparchia_venv"
 SERVERPATH="$HIPPHOME/HipparchiaServer"
 HELPERBIN="$SERVERPATH/server/externalbinaries"
 
-R=$(curl https://raw.githubusercontent.com/e-gun/HipparchiaGoBinaries/stable/cli_prebuilt_binaries/latest_Darwin_md5.txt)
+U=$(uname)
+A=$(uname -p)
+U="${U}-${A}"
+
+R=$(curl https://raw.githubusercontent.com/e-gun/HipparchiaGoBinaries/stable/cli_prebuilt_binaries/latest_${U}_md5.txt)
 L=$(md5 $HELPERBIN/HipparchiaGoDBHelper | cut -d" " -f 4)
 
 if [ $L != $R ]; then
   echo "md5sum of latest golang binary does not match local copy: replacing local with remote"
   cd $HELPERBIN
-  wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaGoDBHelper-Darwin-latest.bz2
-  bunzip2 $HELPERBIN/HipparchiaGoDBHelper-Darwin-latest.bz2
-  mv HipparchiaGoDBHelper-Darwin-latest $HELPERBIN/HipparchiaGoDBHelper
+  wget https://github.com/e-gun/HipparchiaGoBinaries/raw/stable/cli_prebuilt_binaries/HipparchiaGoDBHelper-${U}-latest.bz2
+  bunzip2 $HELPERBIN/HipparchiaGoDBHelper-${U}-latest.bz2
+  mv HipparchiaGoDBHelper-${U}-latest $HELPERBIN/HipparchiaGoDBHelper
   chmod 755 $HELPERBIN/HipparchiaGoDBHelper
   cd ~
 fi

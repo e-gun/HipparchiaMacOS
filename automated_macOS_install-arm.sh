@@ -67,7 +67,6 @@ fi
 # brew has to install all of these at once; then it will kill the script... why?!
 $BREW install git python postgresql wget redis openssl
 
-
 GIT="${BREWBIN}/git"
 PYTHON="${BREWBIN}/python3"
 
@@ -113,9 +112,12 @@ $HIPPHOME/bin/pip3 install flask websockets flask_wtf flask_login rich redis
 
 # psycopg2 no longer does streamcopy properly (2.9.1)?
 # psycopg2 is a PITA; you have to build it, but it is not easy to build
-export LDFLAGS="-L/opt/homebrew/opt/openssl@1.1/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/openssl@1.1/include"
-$HIPPHOME/bin/pip3 install psycopg2==2.8.5
+# openssl has to be installed too
+#export LDFLAGS="-L/opt/homebrew/opt/openssl@1.1/lib"
+#export CPPFLAGS="-I/opt/homebrew/opt/openssl@1.1/include"
+#$HIPPHOME/bin/pip3 install psycopg2==2.8.5
+$HIPPHOME/bin/pip3 install psycopg2
+
 
 if [ "$VECTORS" == "y" ]; then
   $HIPPHOME/bin/pip3 install cython scipy numpy gensim pyLDAvis matplotlib networkx scikit-learn

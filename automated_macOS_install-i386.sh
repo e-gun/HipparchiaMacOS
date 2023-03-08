@@ -109,13 +109,6 @@ chmod 700 $HIPPHOME/selfupdate.sh
 cp -rp $MACPATH/macos_launch_hipparchia_application.app $HIPPHOME/launch_hipparchia.app
 cp -rp $MACPATH/macos_dbload_hipparchia.app $LOADERPATH/load_hipparchia_data.app
 
-# catalina comes with python3
-#if [ ! -f  '/usr/local/bin/python3' ] && [ ! -f '/usr/bin/python3' ]; then
-#	$BREW install python3
-#else
-#	echo "python3 already installed; will not ask brew to install python"
-#fi
-
 # don't love hard-coding a version, but Big Sur's python was a problem
 $BREW install python
 
@@ -151,12 +144,15 @@ $PYTHON -m venv $HIPPHOME
 source $HIPPHOME/bin/activate
 $HIPPHOME/bin/pip3 install flask websockets flask_wtf flask_login rich redis
 # psycopg2 no longer does streamcopy properly (2.9.1)?
-$BREW install openssl
-export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
-export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
-$HIPPHOME/bin/pip3 install psycopg2==2.8.5
+#$BREW install openssl
+#export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+#export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+#$HIPPHOME/bin/pip3 install psycopg2==2.8.5
+$HIPPHOME/bin/pip3 install psycopg2
+
 
 if [ "$VECTORS" == "y" ]; then
+  # note that these items/their dependencies often break when new versions of python are released: 6mo can be required
   $HIPPHOME/bin/pip3 install cython scipy numpy gensim pyLDAvis matplotlib networkx scikit-learn
   # umap-learn broken with python 3.9 (at the moment...) [because llvmlite installation will die]
   # putting this last so that you at least get the ones above properly installed
